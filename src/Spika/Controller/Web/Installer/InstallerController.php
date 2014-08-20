@@ -154,7 +154,7 @@ class InstallerController implements ControllerProviderInterface
                 
                 $conn->rollback();      
                 return $app['twig']->render('installer/installerError.twig', array(
-                    'ROOT_URL' => $rootUrl
+                    'ROOT_URL' => $rootUrl.($e->getMessage())
                 ));
                 
             }
@@ -191,7 +191,7 @@ class InstallerController implements ControllerProviderInterface
             if(!is_writable($fileDir)){
                 $app['monolog']->addDebug("{$fileDir} is not writable.");
                 return $app['twig']->render('installer/installerError.twig', array(
-                    'ROOT_URL' => $rootUrl
+                    'ROOT_URL' => $rootUrl.'test3'
                 ));
             }
             
@@ -230,6 +230,7 @@ class InstallerController implements ControllerProviderInterface
                 $data = array(
                     'title' => $categoryName,
                     'avatar_file_id' => $fileName,
+                    //'modified' => time(),
                     'created' => time()
                 );
 
@@ -242,7 +243,7 @@ class InstallerController implements ControllerProviderInterface
                     $conn->rollback();  
                         
                     return $app['twig']->render('installer/installerError.twig', array(
-                        'ROOT_URL' => $rootUrl
+                        'ROOT_URL' => $rootUrl.'test4'.($e->getMessage())
                     ));
                     
                 }
@@ -281,6 +282,7 @@ class InstallerController implements ControllerProviderInterface
                 $data = array(
                     'identifier' => $emoticonname,
                     'file_id' => $fileName,
+                    //'modified' => time(),
                     'created' => time()
                 );
 
@@ -293,7 +295,7 @@ class InstallerController implements ControllerProviderInterface
                     $conn->rollback();  
                         
                     return $app['twig']->render('installer/installerError.twig', array(
-                        'ROOT_URL' => $rootUrl,
+                        'ROOT_URL' => $rootUrl.'test5'.($e->getMessage()),
                     ));
                     
                 }
@@ -305,6 +307,7 @@ class InstallerController implements ControllerProviderInterface
             $userData = array();
             $userData['name'] = "Administrator";
             $userData['email'] = "admin@spikaapp.com";
+            $userData['about'] = "admin";
             $userData['password'] = md5($password);
             $userData['online_status'] = "online";
             $userData['max_contact_count'] = 100;

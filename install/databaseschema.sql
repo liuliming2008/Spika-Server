@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `emoticon` (
   `identifier` varchar(255) COLLATE utf8_bin NOT NULL,
   `file_id` varchar(255) COLLATE utf8_bin NOT NULL,
   `created` int(11) NOT NULL,
-  `modified` int(11) NOT NULL,
+  `modified` int(11) ,
   PRIMARY KEY (`_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `group` (
   `avatar_file_id` varchar(255) COLLATE utf8_bin NOT NULL,
   `avatar_thumb_file_id` varchar(255) COLLATE utf8_bin NOT NULL,
   `created` int(11) NOT NULL,
-  `modified` int(11) NOT NULL,
+  `modified` int(11) ,
   PRIMARY KEY (`_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `group_category` (
   `title` varchar(255) COLLATE utf8_bin NOT NULL,
   `avatar_file_id` varchar(255) COLLATE utf8_bin NOT NULL,
   `created` int(11) NOT NULL,
-  `modified` int(11) NOT NULL,
+  `modified` int(11) ,
   PRIMARY KEY (`_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   `from_user_name` varchar(255) COLLATE utf8_bin NOT NULL,
   `to_user_name` varchar(255) COLLATE utf8_bin NOT NULL,
   `created` int(11) NOT NULL,
-  `modified` int(11) NOT NULL,
+  `modified` int(11) ,
   `delete_type` INT NOT NULL DEFAULT '0',
   `delete_at` int(11) NOT NULL DEFAULT '0',
   `delete_flagged_at` int(11) NOT NULL DEFAULT '0',
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `notification` (
   `user_image_url` varchar(255) COLLATE utf8_bin NOT NULL,
   `count` int(11) NOT NULL,
   `created` int(11) NOT NULL,
-  `modified` int(11) NOT NULL,
+  `modified` int(11) ,
   PRIMARY KEY (`_id`),
   KEY `user_id` (`user_id`,`to_group_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -120,23 +120,23 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `about` text COLLATE utf8_bin NOT NULL,
+  `about` text COLLATE utf8_bin,
   `email` varchar(255) COLLATE utf8_bin NOT NULL,
   `password` varchar(255) COLLATE utf8_bin NOT NULL,
   `online_status` varchar(16) COLLATE utf8_bin NOT NULL,
   `max_contact_count` int(11) NOT NULL,
   `max_favorite_count` int(11) NOT NULL,
-  `token` varchar(255) COLLATE utf8_bin NOT NULL,
-  `token_timestamp` int(11) NOT NULL,
-  `last_login` int(11) NOT NULL,
+  `token` varchar(255) COLLATE utf8_bin,
+  `token_timestamp` int(11),
+  `last_login` int(11),
   `birthday` int(11) DEFAULT NULL,
-  `gender` varchar(128) COLLATE utf8_bin NOT NULL,
-  `avatar_file_id` varchar(255) COLLATE utf8_bin NOT NULL,
-  `avatar_thumb_file_id` varchar(255) COLLATE utf8_bin NOT NULL,
-  `ios_push_token` varchar(255) COLLATE utf8_bin NOT NULL,
-  `android_push_token` varchar(255) COLLATE utf8_bin NOT NULL,
+  `gender` varchar(128) COLLATE utf8_bin,
+  `avatar_file_id` varchar(255) COLLATE utf8_bin,
+  `avatar_thumb_file_id` varchar(255) COLLATE utf8_bin,
+  `ios_push_token` varchar(255) COLLATE utf8_bin,
+  `android_push_token` varchar(255) COLLATE utf8_bin,
   `created` int(11) NOT NULL,
-  `modified` int(11) NOT NULL,
+  `modified` int(11) ,
   PRIMARY KEY (`_id`),
   KEY `name` (`name`,`email`,`token`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `news` (
   `content` text COLLATE utf8_bin NOT NULL,
   `story_url` text COLLATE utf8_bin NOT NULL,
   `created` int(11) NOT NULL,
-  `modified` int(11) NOT NULL,
+  `modified` int(11) ,
   PRIMARY KEY (`_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS `servers` (
   `name` varchar(255) COLLATE utf8_bin NOT NULL,
   `url` text COLLATE utf8_bin NOT NULL,
   `created` int(11) NOT NULL,
-  `modified` int(11) NOT NULL,
+  `modified` int(11) ,
   PRIMARY KEY (`_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 

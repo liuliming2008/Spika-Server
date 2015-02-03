@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>注册成功</title>
+
+    
+    <link href="{{ROOT_URL}}/assets/css/buttons.css" rel="stylesheet" type="text/css"> 
+    <link href="{{ROOT_URL}}/assets/css/utilities.css" rel="stylesheet" type="text/css">
+		<link href="{{ROOT_URL}}/assets/css/go_page_new.css" rel="stylesheet" type="text/css">
+    
+    
+</head>
+
+<body >
+	<div class="section confirmation">
+
+		<div class="container">
+
+			<h1 class="seafoam_green">There's already a team for you!</h1>
+
+			<p class="small_bottom_margin">You can sign up for team <strong>{{teamtitle}}</strong> with your {{team_email_domain}} email address.</p>
+			
+			<div class="muddy_lilac">Your email is {{email}}</div>
+
+
+			<form action="{{team_domain}}/signup" method="post" accept-encoding="UTF-8">
+			<input type="hidden" name="signup1" value="1" />
+			<input type="hidden" name="full_email" class="input" value="{{email}}" />
+
+			<p><input type="submit" class="btn btn-primary btn-large indented" value="Send confirmation email"/></p>
+
+			</form>
+      {% if false %}
+			<div class="muddy_lilac or_divider">
+				<div class="horiz_line"></div>
+				<div class="or">or</div>
+				<div class="horiz_line"></div>
+			</div>
+
+			<p class="small_bottom_margin small_top_margin"><strong>Create a new team</strong></p>
+			
+			<div class="muddy_lilac large_bottom_margin">Get a magic email at <strong>xuxiaohui22@xinnet.com</strong> to create a new team.</div>
+
+			<a class="btn btn-primary btn-large" style="display:inline-block;" href="/go/launch?ef=xuxiaohui22%40xinnet.com&cf=Xinnet&crumb=s-1408954037-75e883bb00-%E2%98%83">Send team creation email</a>
+      {% endif %}
+		</div>
+		
+	</div>
+
+</div>
+
+	</body>	
+</html>

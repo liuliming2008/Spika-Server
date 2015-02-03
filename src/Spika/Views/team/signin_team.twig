@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>登录</title>
+
+    
+    <link href="{{ROOT_URL}}/assets/css/buttons.css" rel="stylesheet" type="text/css"> 
+    <link href="{{ROOT_URL}}/assets/css/utilities.css" rel="stylesheet" type="text/css">
+		<link href="{{ROOT_URL}}/assets/css/go_page_new.css" rel="stylesheet" type="text/css">
+    
+    
+</head>
+
+<body class="padded " ondragover="return false">
+
+	
+			
+	
+	<div id="slack_header">
+		<div class="container">
+
+			<div style="float: right; margin-top: -32px">
+						<a class="btn btn-outline" href="https://slack.com/signin">Sign in</a>
+				</div>
+
+			<a href="/"><img style="width: 180px; height: 54px;" src="https://slack.global.ssl.fastly.net/22564/img/slack_logo.png"></a>
+			<hr>
+		</div>
+	</div>
+			
+		
+	
+<div class="container">
+
+	<h1>Sign in to {{name}}</h1>
+{% if errortypes is defined %} 
+{% for error in errortypes %} 
+  {% if error=="wrongpass" %}
+  					<p class="alert alert-error">Incorrect password.</p>	
+  {% elseif error=="inputvalid" %}
+            <p class="alert alert-error">请正确输入用户名和密码.</p>	
+  {% elseif error=="nothisuser" %}
+            <p class="alert alert-error">没有该账号，请检查账号输入是否正确或注册账号.</p>	
+  {% elseif error=="notjoinedteam" %}
+            <p class="alert alert-error">你没有加入该团队，请检查URL输入正确或注册该团队.</p>
+  {% endif %}
+{% endfor %}
+{% endif %}
+	<form accept-encoding="UTF-8" method="post" action="/signin">
+		<input type="hidden" value="1" name="signin">
+		<input type="hidden" value="" name="redir">
+		<input type="hidden" value="s-1409409890-fd91d67e36-☃" name="crumb">
+
+		<p class="control-group ">
+			<label for="email" class="control-label">Email Address</label>
+			<input type="email" value="{{email}}" size="40" name="email">
+		</p>
+
+		<p class="control-group ">
+			<label for="password" class="control-label">Password</label>
+			<input type="password" size="40" name="password">
+			<span class="input_note indented">
+				<label class="checkbox"><input type="checkbox" checked="" name="remember"> Remember me on this computer</label><br>
+				<a href="/forgot">Forgotten your password?</a>
+			</span>
+		</p>
+
+		<p class="indented"><input type="submit" value="Sign In" class="btn btn-primary"></p>
+			
+	</form>
+
+	
+	<hr>
+
+	<p class="mini">
+		If you have an <strong>{{email_domains}}</strong> email address, you can <a href="/signup/">create an account</a>.
+	</p>
+
+</div>
+
+
+		<div class="clear-both"></div>
+
+<div id="footer">		
+	<span class="float-right">
+						<a href="https://api.slack.com/">API</a>		<a href="/pricing">Pricing</a>				<a target="_blank" href="http://slackatwork.com">Slack at Work</a><br>		<a href="/terms-of-service">Terms of Service</a>
+		<a href="/privacy-policy">Privacy Policy</a>
+		<a href="/security">Security</a>
+		<a href="/help/contact">Contact</a>
+		<a href="http://www.tinyspeck.com"><nobr>Slack Technologies, Inc</nobr></a>
+			</span>
+</div>
+
+
+
+
+
+<!-- output_js "core" -->
+<script crossorigin="anonymous" src="https://slack.global.ssl.fastly.net/22159/js/libs_jquery-2.1.1_1405531008.https.gz.js" type="text/javascript"></script>
+<script crossorigin="anonymous" src="https://slack.global.ssl.fastly.net/10860/js/libs_flash_detect_1381167216.https.gz.js" type="text/javascript"></script>
+<script crossorigin="anonymous" src="https://slack.global.ssl.fastly.net/22507/js/libs_bootstrap_1406132967.https.gz.js" type="text/javascript"></script>
+
+<!-- output_js "secondary" -->
+
+<!-- output_js "regular" -->
+<script crossorigin="anonymous" src="https://slack.global.ssl.fastly.net/23753/js/libs_warn_capslock_1408396253.https.gz.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		
+			$('input[name="email"]').val() ? $('input[name="password"]').focus() : $('input[name="email"]').focus();
+		
+	</script>
+
+
+
+<!-- slack-www500 / 2014-08-30 07:44:50 / v24600 -->
+
+
+</body>
+</html>

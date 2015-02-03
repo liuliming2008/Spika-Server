@@ -27,42 +27,42 @@ class StaticPageController extends SpikaWebBaseController
     {
         ExceptionHandler::register(false);
         $controllers = $app['controllers_factory'];
-		$self = $this;
+		    $self = $this;
 		
-		// first screen
-		$controllers->get('/eula/{language}', function (Request $request,$language) use ($app,$self) {
-			
-			return $app['twig']->render("static/eula_{$language}.twig", array(
-			));
-			
-		});
+    		// first screen
+    		$controllers->get('/eula/{language}', function (Request $request,$language) use ($app,$self) {
+    			
+    			return $app['twig']->render("static/eula_{$language}.twig", array(
+    			));
+  			
+		    });
 		
-		$controllers->get('/privacypolicy/{language}', function (Request $request,$language) use ($app,$self) {
+		    $controllers->get('/privacypolicy/{language}', function (Request $request,$language) use ($app,$self) {
 			
-			return $app['twig']->render("static/privacy_{$language}.twig", array(
-			));
+			     return $app['twig']->render("static/privacy_{$language}.twig", array(
+			     ));
 			
-		});
+		    });
         
-		$controllers->get('/information/{token}', function (Request $request,$token) use ($app,$self) {
+		    $controllers->get('/information/{token}', function (Request $request,$token) use ($app,$self) {
 			
             $user = $app['spikadb']->findUserByToken($token);
     
             if (empty($user['token']) || $token !== $user['token']) {
-    			return $app['twig']->render("static/tokenExpired.twig", array(
+    			     return $app['twig']->render("static/tokenExpired.twig", array(
     			    'ROOT_URL' => ROOT_URL,
     			    
-    			));
+    			     ));
             }
         
             $app['session']->set('user', $user);
 			
-			return $app['twig']->render("static/information.twig", array(
+			     return $app['twig']->render("static/information.twig", array(
 			    'ROOT_URL' => ROOT_URL,
 			    'user' => $user
-			));
+			     ));
 			
-		});
+		    });
         
         return $controllers;
     }

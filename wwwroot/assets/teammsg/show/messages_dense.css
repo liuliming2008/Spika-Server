@@ -1,0 +1,127 @@
+@-webkit-keyframes progress_bar{from{background-position:0 0}
+to{background-position:-56px 0}
+}
+@-moz-keyframes progress_bar{from{background-position:0 0}
+to{background-position:-56px 0}
+}
+@-o-keyframes progress_bar{from{background-position:0 0}
+to{background-position:-56px 0}
+}
+@keyframes progress_bar{from{background-position:0 0}
+to{background-position:-56px 0}
+}
+.helvetica{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
+.lato{font-family:'Lato',sans-serif;font-weight:400;-webkit-font-smoothing:antialiased}
+.lato_black{font-family:'Lato',sans-serif;font-weight:900}
+.lato_bold{font-family:'Lato',sans-serif;font-weight:700}
+.lato_regular{font-family:'Lato',sans-serif;font-weight:500}
+.monospace{font-family:"Monaco","Menlo","Consolas","Courier New",monospace !important}
+.burnt_violet{color:#4d394b !important}
+.burnt_violet_bg{background-color:#4d394b !important}
+.ocean_teal{color:#4c9689 !important}
+.ocean_teal_bg{background-color:#4c9689 !important}
+.havana_blue{color:#2a80b9 !important}
+.havana_blue_bg{background-color:#2a80b9 !important}
+.pale_blue{color:#f1f7fa !important}
+.pale_blue_bg{background-color:#f1f7fa !important}
+.candy_red{color:#eb4d5c !important}
+.candy_red_bg{background-color:#eb4d5c !important}
+.indifferent_grey{color:#555459 !important}
+.indifferent_grey_bg{background-color:#555459 !important}
+.severe_grey{color:#3d3c40 !important}
+.severe_grey_bg{background-color:#3d3c40 !important}
+.dull_grey{color:#8b898f !important}
+.dull_grey_bg{background-color:#8b898f !important}
+.subtle_silver{color:#9e9ea6 !important}
+.subtle_silver_bg{background-color:#9e9ea6 !important}
+.cloud_silver{color:#babbbf !important}
+.cloud_silver_bg{background-color:#babbbf !important}
+.sky_blue{color:#439fe0 !important}
+.sky_blue_bg{background-color:#439fe0 !important}
+.slate_blue{color:#3d4b5b !important}
+.slate_blue_bg{background-color:#3d4b5b !important}
+.muddy_lilac{color:#937e91 !important}
+.muddy_lilac_bg{background-color:#937e91 !important}
+.moscow_red{color:#d00000 !important}
+.moscow_red_bg{background-color:#d00000 !important}
+.moscow_red_dark{color:#870000 !important}
+.moscow_red_dark_bg{background-color:#870000 !important}
+.mustard_yellow{color:#daa038 !important}
+.mustard_yellow_bg{background-color:#daa038 !important}
+.kelly_green{color:#36a64f !important}
+.kelly_green_dark{color:#257337 !important}
+.kelly_green_bg{background-color:#36a64f !important}
+.seafoam_green{color:#2ab27b !important}
+.seafoam_green_bg{background-color:#2ab27b !important}
+.star_yellow{color:#fc0 !important}
+.star_yellow_bg{background-color:#fc0 !important}
+.highlight_yellow_bg{background-color:#fffce0 !important}
+.dropbox_blue{color:#007ee5 !important}
+.dropbox_blue_bg{background-color:#007ee5 !important}
+.twitter_blue{color:#55acee !important}
+.twitter_blue_bg{background-color:#55acee !important}
+.warm_white{color:#fbfaf8 !important}
+.warm_white_bg{background-color:#fbfaf8 !important}
+.cloud_white{color:#f2f2f5 !important}
+.cloud_white_bg{background-color:#f2f2f5 !important}
+.dense_theme #message-input{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
+.dense_theme .message{padding:.15rem 2rem .15rem 4.6rem;line-height:1.15rem;font-size:.9rem;color:#3d3c40;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
+.dense_theme .message.unprocessed{color:#999}
+.dense_theme .message_sender{margin-left:-0.7rem;padding-right:.25rem;font-weight:bold}
+.dense_theme .message .timestamp{text-align:left;color:#DDD;font-size:.7rem;margin-right:.8rem;margin-left:-4.2rem;position:absolute;line-height:1.2rem;margin-top:0rem}
+.dense_theme .message .timestamp.no_user{line-height:1.25rem}
+.dense_theme .message:hover .timestamp{color:#666}
+.dense_theme .message.first .timestamp{color:#666}
+.dense_theme .message .message_star_holder{position:absolute;left:-8px;top:1px}
+@-moz-document url-prefix(){.dense_theme .message .message_star_holder{top:2px}
+}
+.dense_theme .message.divider .message_star_holder{top:3px}
+@-moz-document url-prefix(){.dense_theme .message.divider .message_star_holder{top:4px}
+}
+.dense_theme .message.divider{border-top:1px solid #efefef}
+.dense_theme .message.first,.dense_theme .message.first.divider{border-top:1px solid transparent;margin-top:.7rem}
+.dense_theme .msgs_holder .day_divider{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:.9rem}
+.dense_theme .message.joined,.dense_theme .message.left,.dense_theme .message.topic,.dense_theme .message.purpose,.dense_theme .message.rename,.dense_theme .message.archived,.dense_theme .message.unarchived{color:#CCC;font-style:italic}
+.dense_theme #message_edit_container{padding-right:0}
+.dense_theme #message_edit_form{width:100%;margin:0 0 0 -0.8rem;position:relative}
+.dense_theme #message_editing_info{color:#555459;margin-bottom:.25rem;margin-left:-0.75rem}
+.dense_theme #message_edit_form textarea{width:100%;padding:.25rem 1.25rem .25rem .5rem;height:29px;margin-bottom:0;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:.95rem;color:#3d3c40}
+.dense_theme #message_edit_form span,.dense_theme #message_edit_form p{color:#AAA}
+.dense_theme #message_edit_form p{margin-bottom:.25rem}
+.dense_theme #message_edit_form .timestamp{color:#666}
+.dense_theme #message_edit_form .emo_menu{right:5px;top:0}
+.dense_theme .message .icon,.dense_theme .message .file_details{margin-top:.1rem}
+.dense_theme .message.file_share .file_details,.dense_theme .message.file_mention .file_details,.dense_theme .file_reference .file_details{margin-top:.25rem}
+.dense_theme .file_comment .timestamp{margin-top:.25rem}
+.dense_theme .file_comment .message_star_holder{top:5px}
+.dense_theme .file_reference .post_meta{margin-top:.25rem;font-size:.9rem;line-height:1rem;margin-bottom:.25rem;color:#AAA}
+.dense_theme .file_reference .snippet_meta,.dense_theme .file_reference .post_meta{color:#AAA;font-size:.8rem;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
+.dense_theme .file_reference .post_preview{max-width:500px}
+.dense_theme .message .file_name{font-size:.9rem;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:bold}
+.dense_theme .message .icon{margin-right:.6rem;-moz-opacity:.7;-khtml-opacity:.7;-webkit-opacity:.7;opacity:.7;-ms-filter:alpha(opacity=70);filter:alpha(opacity=70);-webkit-transitionDISABLED:opacity .1s ease-out;-moz-transitionDISABLED:opacity .1s ease-out;-o-transitionDISABLED:opacity .1s ease-out;transitionDISABLED:opacity .1s ease-out}
+.dense_theme .message:hover .icon{-moz-opacity:1;-khtml-opacity:1;-webkit-opacity:1;opacity:1;-ms-filter:alpha(opacity=100);filter:alpha(opacity=100)}
+.dense_theme .file_reference a:not(.member):not(.member_name):not(.icon):not(.timestamp){color:#555459;-webkit-transitionDISABLED:color .15s ease-out;-moz-transitionDISABLED:color .15s ease-out;-o-transitionDISABLED:color .15s ease-out;transitionDISABLED:color .15s ease-out}
+.dense_theme .file_reference:hover a:not(.member):not(.member_name):not(.icon):not(.timestamp){color:#2a80b9}
+.dense_theme .file_reference:hover a:hover:not(.member):not(.member_name):not(.icon):not(.timestamp){color:#439fe0}
+.dense_theme .file_reference:hover a.file_download_link{color:#555459 !important}
+.dense_theme .file_reference:hover a.file_download_link:hover{color:#439fe0 !important}
+.dense_theme .file_reference a.member_name{color:inherit}
+.dense_theme .message.file_upload{min-height:81px}
+.dense_theme .file_reference .icon{margin-left:-0.7rem}
+.dense_theme .msgs_holder .message.file_share em,.dense_theme .msgs_holder .message.file_mention em,.dense_theme .msgs_holder .message.file_post_comment em,.dense_theme .msgs_holder .message.file_comment.comment_continuation em{margin-left:-0.7rem;font-style:normal}
+.dense_theme .msgs_holder .message.file_comment em,.dense_theme .file_reference em{font-style:normal}
+.dense_theme .message.file_comment .comment{padding-left:46px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:18px}
+.dense_theme .message.file_comment.comment_continuation .comment{padding-left:0}
+.dense_theme .message.file_upload .icon,.dense_theme .message.file_comment .icon{position:relative}
+.dense_theme .message.file_upload .icon_comment,.dense_theme .message.file_comment .icon_comment{position:absolute;bottom:-0.3rem;left:-0.3rem;line-height:1rem}
+.dense_theme .message .inline_bot_icon{display:inline-block;width:1.2rem;height:1.2rem;margin-top:-4px}
+.dense_theme .message .message_sender .emoji-sizer{vertical-align:top;margin-top:-2px;display:inline-block}
+.dense_theme .message.file_upload .initial_comment{margin:.25rem 0 .5rem 88px}
+.dense_theme .msg_inline_img,.dense_theme .msg_inline_video{border:1px solid #DDD}
+.dense_theme .tweet_contents{margin-top:5px}
+.dense_theme .inline_attachment .attachment_service_icon,.dense_theme .inline_attachment .attachment_author_icon{margin-top:0}
+.dense_theme .inline_attachment td .attachment_field_value{margin-top:-0.1rem}
+.dense_theme .inline_attachment .attachment_title{font-size:.9rem}
+.dense_theme .msg_inline_holder{margin-top:.2rem}
+.dense_theme code{padding:0 3px}
+.dense_theme .ephemeral.message .ephemeral_notice{display:block}

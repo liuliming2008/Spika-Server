@@ -34,9 +34,15 @@ class LoginController extends SpikaWebBaseController
         $self = $this;
     
         $controllers->get('/', function (Request $request) use ($app,$self) {
-            return $app->redirect(ROOT_URL . '/client/login');   
+            //return $app->redirect(ROOT_URL . '/client/login');       
+            return $self->render('client/index.twig', array(
+                'ROOT_URL' => ROOT_URL,
+                'formValues' => array(
+                                      
+                )
+            ));                 
         }); 
-        
+ 
         $controllers->get('/login', function (Request $request) use ($app,$self) {
             
             $cookies = $request->cookies;

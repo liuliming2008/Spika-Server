@@ -1,0 +1,290 @@
+{% extends "client/layout.createcomp.twig" %}
+
+
+
+{% block body %}
+
+
+{% if step is not defined %}
+{% if reg_status == 'checked' %}
+
+<h1>Welcome!</h1> 
+<h2 class="large_bottom_margin">You're about to set up a new team on Slack.</h2>
+
+
+<p>Your invitation was sent to <strong>{{email}}</strong>.</p>
+
+<p>Is this the correct email address?</p>
+
+<form action="/create/{{create_id}}" method="post" id="email_confirm_form" accept-encoding="UTF-8" class="large_bottom_margin">
+    <input type="hidden" name="done" value="step1" />
+    <input type="hidden" name="crumb" value="s-1408952571-11e15eafda-☃" />
+
+    <p><a onclick="$('#email_confirm_form').submit();" class="btn btn-large"><i class="fa fa-check small_right_margin"></i> Yes, that's the right address</a>
+    </p>
+</form>
+
+<div id="different_address_toggle">
+    <p class="secondary">If that's not right, you can switch to a different email address. We'll need to send you a new invite, but we'll do that right away.</p>
+    <p><a class="btn btn-outline btn-large" onclick="
+$(this).fadeOut(200, function() { 
+setTimeout( function() { 
+$('#different_address').fadeIn(200, function() {
+resizeColumn();
+$('#alternative_email').focus();
+}); 
+}, 150); 
+}); return false;">
+Switch to a different address
+</a>
+    </p>
+</div>
+
+<div id="different_address" style="display: none;">
+    <form action="/create/{{create_id}}" method="post" accept-encoding="UTF-8">
+        <input type="hidden" name="email_change" value="1" />
+        <input type="hidden" name="crumb" value="s-1408952571-11e15eafda-☃" />
+
+        <input type="email" id="alternative_email" name="email" value="" class="small_right_margin" placeholder="Email Address" />
+        <input type="submit" class="btn btn-large btn-primary" value="Use this instead" />
+    </form>
+</div>
+{% else %}
+
+{% endif %}
+
+{% elseif step == "step0" %}
+	<h1>Success!</h1>
+
+	<p>We've sent an invitation to <strong>{{email}}</strong>. Check your mailbox: it might already be there.</p>
+	<p class="secondary">In the meantime, maybe follow us on Twitter <a href="https://twitter.com/slackhq" class="bold" target="new">@slackhq</a>. It's worth a shot.</p>
+	
+{% elseif step == "step1" %}
+<h1>Team Name</h1>
+<form action="/create/{{create_id}}" method="post" accept-encoding="UTF-8" class="form-inline" role="form">
+
+    <input name="done" value="step2" type="hidden"> 
+    <input name="crumb" value="s-1409217083-f12b1fd999-☃" type="hidden">
+    <div class="form-group">
+
+        <input name="name" value="" maxlength="255" type="text" class="form-control" id="name" placeholder="" >
+
+    </div>
+    <p>This will show up in menus and headings. It will usually be (or include) the name of your company. It doesn't need to be formal.</p>
+
+    <button type="submit" class="btn btn-primary btn-large">Next <i class="fa fa-arrow-right small_left_margin"></i>
+    </button>
+
+</form>
+{% elseif step == "step2" %}
+
+	<h1>Team URL</h1>
+
+  {% if errortype == "urlexist" %}
+  <p class="alert alert-error"><i class="fa fa-exclamation-circle small_right_margin"></i> That URL is unavailable. Please try again.</p>
+  {% endif %}  
+  {% if errortype == "invalidstring" %}
+  <p class="alert alert-error"><i class="fa fa-exclamation-circle small_right_margin"></i> Your URL can only contain lowercase letters, numbers and dashes. It must contain at least one letter. It may not start or end with a dash.</p>
+  {% endif %}  
+	<form action="/create/{{create_id}}" method="post" accept-encoding="UTF-8" class="form-horizontal">
+		<input name="done" value="step3" type="hidden">
+		<input name="name" value="{{name}}" type="hidden">
+		<input name="crumb" value="s-1409291671-41e95ba7ea-☃" type="hidden">
+
+		<p class="control-group input-append ">
+			<input name="url" class="inline align-right" value="" placeholder="company" maxlength="21" type="text">
+			<span class="add-on">.smock.com</span>
+		</p>
+
+		<p>Pick something short, memorable and recognizable for your team's web address.</p>
+		<p class="secondary">Your team URL can only contain lowercase letters, numbers and dashes (and must start with a letter).</p>
+
+		<button type="submit" class="btn btn-primary btn-large">Next <i class="fa fa-arrow-right small_left_margin"></i></button>
+
+	</form>
+
+{% elseif step == "step3" %}
+
+	<h1>Email Domain</h1>
+
+	<form action="/create/{{create_id}}" method="post" accept-encoding="UTF-8" class="form-horizontal">
+		<input name="done" value="step4" type="hidden">
+		<input name="name" value="{{name}}" type="hidden">
+		<input name="url" value="{{url}}" type="hidden">
+		<input name="crumb" value="s-1409291977-14492b1019-☃" type="hidden">
+
+		<p class="control-group  error">
+			<input type="checkbox" checked="" class="float-left small_right_margin" name="use_domain" id="use_domain" value="true">
+			<label style="display: block; padding-top: 0;" for="use_domain"> Allow sign up with company email address</label>
+		</p>
+    <p class="secondary">
+			You can let members of your team sign up by themselves using their email address if you have a company/team domain name. (Otherwise, you’ll have to send them all invites yourself.)
+		</p>
+		<div id="email_domain_setup">
+			<p class="bold">Your team's domain for emails</p>
+      {% if forbids|length >0    %}
+        <p class="alert alert-error">不能使用{% for forbid in forbids   %}
+                  {{forbid}}{% if not loop.last %}、{% endif%}
+        {% endfor  %}作为邮箱域名 </p>
+      {% endif  %}
+			
+			<p class="input-prepend small_bottom_margin control-group ">
+				<span class="add-on">@</span>
+				<input id="email_domain" placeholder="company.com" name="email_domain" class="inline input-xlarge small_bottom_margin" value="" type="text">
+			</p>
+      
+			<p class="secondary">
+								If you want to allow signups from multiple domains, separate them with commas.
+			</p>
+		</div>
+
+		<button type="submit" class="btn btn-primary btn-large">Next <i class="fa fa-arrow-right small_left_margin"></i></button>
+
+	</form>
+
+{% elseif step == "step3.5" %}
+    <p class="control-group ">
+			<input id="use_domain" name="use_domain" class="float-left small_right_margin" checked="" type="checkbox">
+			<label for="use_domain" style="display: block; padding-top: 0;"> Allow sign up with company email address</label>
+		</p>
+		<p class="secondary">
+			You can let members of your team sign up by themselves using their email address if you have a company/team domain name. (Otherwise, you’ll have to send them all invites yourself.)
+		</p>				
+{% elseif step == "step4" %}	
+<h1>Send Invitations</h1>
+
+
+<form action="/create/{{create_id}}" method="post" accept-encoding="UTF-8" class="form-horizontal" id="step5form">
+    <input name="done" value="step5" type="hidden">
+    <input name="name" value="{{name}}" type="hidden">
+    <input name="url" value="{{url}}" type="hidden">
+    <input name="email_domain" value="{{email_domain}}" type="hidden">
+    <input name="use_domain" value="{{use_domain}}" type="hidden">
+    <input name="crumb" value="s-1409292455-d5be50d3ce-☃" type="hidden">
+
+{% for i in 1..50 %}  
+
+{% if i > 3 %} 
+    <div id="invite_row_{{ i }}" class="invite_row hidden">
+{% else %}
+    <div id="invite_row_{{ i }}" class="invite_row">
+{% endif %}
+
+      <p class="control-group multi_domain ">
+          <input name="email_name_{{ i }}" value="" class="invite_input" type="text">
+{% if email_domains|length == 1 %}
+			<strong class="mini">@{{email_domains[0]}}</strong>	
+{% else %}          
+          <select name="email_domain_{{ i }}">
+{% for domain in email_domains %}   
+            <option value="{{ domain }}">@{{ domain }}</option> 
+{% endfor %}  
+          </select>
+{% endif %}            
+      </p>
+    </div>
+  
+{% endfor %}  
+
+    <a onclick="addInviteRow();" class="btn btn-small btn-outline" style="width: 10rem;"><i class="fa fa-plus-circle small_right_margin"></i>Add Invitation</a>
+
+    <div class="large_bottom_margin"></div>
+
+    <button type="submit" class="btn btn-primary btn-large">Next <i class="fa fa-arrow-right small_left_margin"></i>
+    </button>
+
+    <p class="secondary large_top_margin">
+        <a onclick="skipInvites();" class="btn btn-outline float-right left_margin small_top_margin small_bottom_margin">Skip this step</a>
+        If you'd like, you can send invitations after you finish setting up your team.
+    </p>
+
+</form>
+<script>
+
+
+	function addInviteRow() {
+		// show the next invite row and focus the input
+		$('.invite_row.hidden').first().removeClass('hidden').find('input').focus();
+	}
+	
+	function skipInvites(){
+		$('.invite_input').val('');
+		$('#step5form').submit();
+	}
+	
+
+</script>
+{% elseif step == "step5" %}	
+
+	<h1>Choose a username</h1>
+
+
+	<form action="/create/{{create_id}}" method="post" accept-encoding="UTF-8" class="form-horizontal">
+		<input name="done" value="step6" type="hidden">
+		{% if name is defined %}<input name="name" value="{{name}}" type="hidden">{% endif %}
+		{% if url is defined %}<input name="url" value="{{url}}" type="hidden">{% endif %}
+		{% if email_domain is defined %}<input name="email_domain" value="{{email_domain}}" type="hidden">{% endif %}
+		{% if use_domain is defined %}<input name="use_domain" value="{{use_domain}}" type="hidden">{% endif %}
+		{% if invites is defined %}<input name="invites" value="{{invites}}" type="hidden">{% endif %}
+		{% if skip_invites is defined %}<input name="skip_invites" value="{{skip_invites}}" type="hidden">{% endif %}
+		<input name="tz" id="tz" value="Asia/Shanghai" type="hidden">
+		<input name="crumb" value="s-1409447476-bf794c9a47-☃" type="hidden">
+
+		<p class="control-group ">
+			<input name="username" class="username_field" value="" maxlength="21" autocapitalize="off" autocorrect="off" type="text">
+		</p>
+		<p class="secondary">
+			Your username is how you will appear to other people on your team. Pick something others will recognize.
+		</p>
+				<button type="submit" class="btn btn-primary btn-large">Next <i class="fa fa-arrow-right small_left_margin"></i></button>
+
+	</form>
+
+
+				
+{% elseif step == "step6" %}	
+
+	<h1>Choose a password</h1>
+
+	<form action="/create/{{create_id}}" method="post" accept-encoding="UTF-8" class="form-horizontal">
+		<input name="done" value="step7" type="hidden">
+		{% if name is defined %}<input name="name" value="{{name}}" type="hidden">{% endif %}
+		{% if url is defined %}<input name="url" value="{{url}}" type="hidden">{% endif %}
+		{% if email_domain is defined %}<input name="email_domain" value="{{email_domain}}" type="hidden">{% endif %}
+		{% if use_domain is defined %}<input name="use_domain" value="{{use_domain}}" type="hidden">{% endif %}
+		{% if invites is defined %}<input name="invites" value="{{invites}}" type="hidden">{% endif %}
+		{% if skip_invites is defined %}<input name="skip_invites" value="{{skip_invites}}" type="hidden">{% endif %}
+		<input name="tz" id="tz" value="Asia/Shanghai" type="hidden">
+		<input name="username" value="liming3" type="hidden">
+		<input name="crumb" value="s-1409449324-5e5d4e2836-☃" type="hidden">
+
+		<p>You'll use your email address (<strong>{{email}}</strong>) and a password to sign in to Slack.</p>
+
+						
+		<p class="control-group small_bottom_margin ">
+			<label for="password" class="bold">Password</label><br>
+			<input name="password" value="" type="password"><div style="position: relative; width: 256px; margin: 5px 0px 1rem;"><div style="height: 4px; background-color: rgb(232, 232, 232); width: 100%; position: absolute; left: 0px;"></div><div id="password-strength-meter" style="height: 4px; background-color: rgb(200, 24, 24); width: 0px; position: absolute; left: 0px;"></div><div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 25%;"></div><div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 50%;"></div><div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 75%;"></div><div id="password-strength-label" style="float: right; margin-top: 6px; line-height: 16px; font-size: 11px;">&nbsp;</div></div>
+		</p>
+
+		<p class="clear-both">
+			<label class="checkbox secondary bottom_margin"><input name="emailok" checked="" type="checkbox"> It's ok to send me email with (very occasional) news about the Slack service.</label>
+		</p>
+
+		<p><button id="submit_btn" type="submit" class="btn btn-primary btn-large ladda-button" data-style="expand-right"><span class="ladda-label"><i class="fa fa-check small_right_margin"></i> All Done</span><span class="ladda-spinner"></span></button></p>
+
+		<p class="legalese">By proceeding to create your account and use Slack, you are agreeing to our <a href="/terms-of-service" target="new">Terms of Service</a>. If you do not agree, you cannot use Slack.</p>
+
+	</form>
+	
+{% elseif step == "step7" %}	
+				
+		
+
+{% endif %}
+
+{% endblock %}
+
+
+
+				
+	

@@ -12,7 +12,7 @@
 
 error_reporting( E_ALL );
 ini_set( "display_errors", 1 );
-date_default_timezone_set("GMT");
+date_default_timezone_set("PRC");
 
 require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/../etc/constants.php';
@@ -117,6 +117,9 @@ $app->mount('/admin/', new Spika\Controller\Web\Admin\ServerController());
 
 $app->mount('/client/', new Spika\Controller\Web\Client\LoginController());
 $app->mount('/client/', new Spika\Controller\Web\Client\MainController());
+$app->mount('/messages/', new Spika\Controller\Web\Team\MainController());
+$app->mount('/go/', new Spika\Controller\Web\Client\GoController());
+$app->mount('/', new Spika\Controller\Web\Team\TeamController());
 
 
 

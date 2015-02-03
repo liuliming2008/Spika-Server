@@ -1,0 +1,856 @@
+<script id="channel_list_template" type="text/x-handlebars-template">
+	{{#each this.channels}}
+		{{> channel}}
+	{{/each}}
+	{{#if this.non_member_cnt}}
+		<a class="channel-list-more list_more">+{{non_member_cnt}} 更多...</a>
+	{{else}}
+		<a class="channel-list-create list_more">创建公共频道...</a>
+	{{/if}}
+</script>
+
+<script id="channel_template" type="text/x-handlebars-template">
+  {{#if this.is_member}}
+	<li class="{{makeChannelDomId this}} channel {{makeChannelDomClass this}}">
+		<a href="/archives/{{this.name}}" target="{{this.name}}" class="channel_name" data-channel-id="{{this.id}}">
+			<span class="{{makeUnreadJustDomId this}} unread_just {{#if_equal this.unread_cnt compare=0}}hidden{{/if_equal}}">
+				{{numberWithMax this.unread_cnt 10}}
+			</span>
+			<span class="{{makeUnreadHighlightDomId this}} unread_highlight {{#if_equal this.unread_highlight_cnt compare=0}}hidden{{/if_equal}}">
+				{{numberWithMax this.unread_highlight_cnt 10}}
+			</span>
+			<span class="overflow-ellipsis">
+				{{#if this.is_archived}}(a) {{/if}}
+				<span class="prefix">#</span>
+				{{this.name}}
+			</span>
+		</a>
+	</li>
+  {{/if}}
+</script>
+<script id="group_list_template" type="text/x-handlebars-template">
+	{{#each this.groups}}
+		{{> group}}
+	{{/each}}
+</script>
+<script id="group_template" type="text/x-handlebars-template">
+	<li class='{{makeGroupDomId group}} group {{makeGroupDomClass group}} cursor_pointer'>
+		<a href="/archives/{{group.name}}" target="{{newWindowName}}" class="group_name" data-group-id="{{group.id}}">
+			<i class="fa fa-times-circle group_close"></i>
+			<span class="{{makeUnreadJustDomId group}} unread_just {{#if_equal group.unread_cnt compare=0}}hidden{{/if_equal}}">
+				{{numberWithMax group.unread_cnt 10}}
+			</span>
+			<span class="{{makeUnreadHighlightDomId group}} unread_highlight {{#if_equal group.unread_highlight_cnt compare=0}}hidden{{/if_equal}}{{#if_equal group.unread_highlight_cnt compare=undefined}}hidden{{/if_equal}}">{{numberWithMax group.unread_highlight_cnt 10}}</span>
+			<span class="overflow-ellipsis">
+				{{#if show_symbol}}<i class="fa fa-lock prefix"></i>{{/if}}
+				{{#if group.is_archived}}(a) {{/if}}
+				<span class="prefix">{{{groupPrefix}}}</span>
+				{{group.name}}
+			</span>
+		</a>
+	</li>	
+</script>
+<script id="group_old_template" type="text/x-handlebars-template">
+	<li class='{{makeGroupDomId this}} group {{makeGroupDomClass this}} cursor_pointer'>
+		<a href="/archives/{{this.name}}" target="{{newWindowName}}" class="group_name" data-group-id="{{this.id}}">
+			<i class="fa fa-times-circle group_close"></i>
+			<span class="{{makeUnreadJustDomId this}} unread_just {{#if_equal this.unread_cnt compare=0}}hidden{{/if_equal}}">
+				{{numberWithMax this.unread_cnt 10}}
+			</span>
+			<span class="{{makeUnreadHighlightDomId this}} unread_highlight {{#if_equal this.unread_highlight_cnt compare=0}}hidden{{/if_equal}}{{#if_equal this.unread_highlight_cnt compare=undefined}}hidden{{/if_equal}}">{{numberWithMax this.unread_highlight_cnt 10}}</span>
+			<span class="overflow-ellipsis">
+				{{#if show_symbol}}<i class="fa fa-lock prefix"></i>{{/if}}
+				{{#if this.is_archived}}(a) {{/if}}
+				<span class="prefix">{{{groupPrefix}}}</span>
+				{{this.name}}
+			</span>
+		</a>
+	</li>	
+</script>
+<script id="im_list_template" type="text/x-handlebars-template">
+	{{#each ims}}
+		{{> im}}
+	{{/each}}
+</script>
+
+<script id="member_template" type="text/x-handlebars-template">
+	<li class='{{makeMemberDomId member}} member {{makeMemberDomClass member}} cursor_pointer'>
+		{{! NOTE: we add user_colored and not_user_colored classes to disallow/allow the color to be applied via the css rule (with :not(.not_user_colored)), and easily toggle that on and off}}
+		<a href="/team/{{im.name}}" target="{{newWindowName}}" class="im_name {{#if color_names}}user_colored{{else}}not_user_colored{{/if}} {{getMemberColorClassByImId im.id}}" data-member-id="{{member.id}}">
+			{{#if show_close_link}}<i class="fa fa-times-circle im_close"></i>{{/if}}
+			<span class="{{makeUnreadHighlightDomId member}} unread_highlight {{#if_equal im.unread_cnt compare=0}}hidden{{/if_equal}}{{#if_equal im.unread_cnt compare=undefined}}hidden{{/if_equal}}">{{numberWithMax im.unread_cnt 10}}</span>
+			<span class="typing_indicator"></span>
+			<span class="overflow-ellipsis">
+				{{#if_equal im.name compare="slackbot"}}
+					<i class="fa fa-heart slackbot_icon"></i>
+					{{im.name}}
+				{{else}}
+					{{{makeMemberPresenceIcon member}}}
+					{{getDisplayNameOfUserForIm im}}
+				{{/if_equal}}
+			</span>
+		</a>
+	</li>	
+</script>
+<script id="im_template" type="text/x-handlebars-template">
+	<li class='{{makeMemberDomIdById this.user}} member {{makeMemberDomClassById this.user}} cursor_pointer'>
+		{{! NOTE:  add user_colored and not_user_colored classes to disallow/allow the color to be applied via the css rule (with :not(.not_user_colored)), and easily toggle that on and off}}
+		<a href="/team/{{this.name}}" target="{{newWindowName}}" class="im_name {{#if color_names}}user_colored{{else}}not_user_colored{{/if}} {{getMemberColorClassByImId this.user}}" data-member-id="{{this.user}}">
+			<i class="fa fa-times-circle im_close"></i>
+			<span class="{{makeUnreadHighlightDomIdById this.user}} unread_highlight {{#if_equal this.unread_cnt compare=0}}hidden{{/if_equal}}{{#if_equal this.unread_cnt compare=undefined}}hidden{{/if_equal}}">{{numberWithMax this.unread_cnt 10}}</span>
+			<span class="typing_indicator"></span>
+			<span class="overflow-ellipsis">
+				{{#if_equal this.name compare="smockbot"}}
+					<i class="fa fa-heart slackbot_icon"></i>
+					{{this.name}}
+				{{else}}
+					{{{makeMemberPresenceIconById this.user}}}
+					{{getDisplayNameOfUserForIm this}}
+				{{/if_equal}}
+			</span>
+		</a>
+	</li>	
+</script>
+
+<script id="channel_members_list_template" type="text/x-handlebars-template">
+	{{#if total_rows}}
+		<ul id="{{makeChannelListDomId channel}}" class='member_list overflow-ellipsis'>			
+			{{#each rows}}
+				<li class="{{makeMemberDomId this}} overflow-ellipsis member" data-member-id="{{this.id}}">
+					<span class="typing_indicator"></span>
+					<a href="/team/{{this.name}}" class="{{makeMemberPresenceDomClass this}} {{makeMemberListDomClass this}} {{getMemberColorClassById this.id}} {{#if ../color_names}}user_colored{{else}}not_user_colored{{/if}} overflow-ellipsis">
+						{{{makeMemberPresenceIcon this}}}
+						{{getMemberDisplayName this}}
+					</a>
+				</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+</script>
+
+<script id="list-users" type="text/x-handlebars-template" >
+  {{#each rows}}
+  
+ 	<li>
+ 		<a href="javascript:_chatManager.startPrivateChat({{value.id}})">
+ 		<img height="40" width="40" class="person_img img-thumbnail" alt="" 
+     {{#if value.avatar_thumb_file_id}}
+     src="http://testasdf.com/api/filedownloader?file={{value.avatar_thumb_file_id}}">{{value.name}}
+     {{else}}
+     src="http://testasdf.com/assets/assets/img/nopicture60x60.png">{{value.name}}
+     {{/if}}
+ 		</a>
+ 	</li>
+  
+  {{/each}}
+</script>   
+
+ 
+<script id="channel_create_dialog_template" type="text/x-handlebars-template">	
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		{{#if is_edit}}			
+			<h3>重命名{{#if is_group}}私有频道{{else}}公共频道{{/if}}</h3>
+		{{else}}
+			<h3 class="create_header">创建公共频道</h3>
+		{{/if}}
+	</div>
+	<div class="modal-body">
+		{{#unless is_edit}}
+			<p class="no_bottom_margin"><strong>创建一个团队中任何人都可以看见和加入的频道</strong></p>
+			{{#unless hide_private_group_option}}
+				<p class="mini">如果你希望创建一个只有收到邀请的成员才能加入和看到的频道, 你应该创建<a onclick="TS.ui.channel_create_dialog.switchToGroup();" class="bold">创建一个私有频道</a></p>
+			{{/unless}}
+		{{/unless}}
+		<p class="top_margin">
+			<label for="title_input" class="inline-block">Name</label>
+			<input id="channel_create_title" name="title_input" type="text" class="title_input" value="{{title}}" maxlength="{{ChannelNameMaxLength}}" />
+			<span class="modal_input_note">
+				名称不应该含空格
+			</span>
+			<span class="modal_input_note hidden alert name_taken_warning">
+				该名称不可用，请换一个尝试
+			</span>
+			<span class="modal_input_note hidden alert invalid_chars_warning">
+				你输入了一些非法字符。我们已经自动处理。请确认这个名称是合适的，并重新提交！
+			</span>
+		</p>
+		{{#unless is_edit}}
+			<p>
+				<label for="channel_purpose_input" class="inline-block">
+					主题<br />
+					<span class="normal">(optional)</span>
+				</label>
+				<textarea id="channel_purpose_input" name="channel_purpose_input" type="text" style="height: 4.5rem;" maxlength="{{ChannelPurposeMaxLength}}">{{purpose}}</textarea>
+				<span class="modal_input_note">给你的 {{#if is_group}}群{{else}}频道{{/if}} 设置主题，表明其用途</span>
+			</p>
+		{{/unless}}
+	</div>
+	<div class="modal-footer">
+		<a class="btn btn-outline dialog_cancel">取消</a>
+		{{#if is_edit}}
+			{{#if is_group}}
+				<button class="btn btn-primary dialog_go ladda-button" data-style="expand-right"><span class="ladda-label">修改群名称</span></button>
+			{{else}}
+				<button class="btn btn-primary dialog_go ladda-button" data-style="expand-right"><span class="ladda-label">修改频道名称</span></button>
+			{{/if}}
+		{{else}}
+			<button class="btn btn-primary dialog_go ladda-button" data-style="expand-right"><span class="ladda-label">创建频道</span></button>
+		{{/if}}
+	</div>
+</script>
+
+<script id="group_create_template" type="text/x-handlebars-template">	
+	<p>私有频道仅对成员可见, 只有私有频道的成员可以查看和搜索消息.</p>
+	<p class="top_margin">
+		<label for="title_input" class="inline-block">Name</label>
+		<input id="group_create_title" name="title_input" type="text" class="title_input" value="{{title}}" maxlength="{{ChannelNameMaxLength}}" />
+		<span class="modal_input_note" id="title_prompt">
+			Names must be lower case and cannot contain spaces or periods.
+		</span>
+		<span class="modal_input_note hidden alert name_taken_warning">
+			That name is currently unavailable. Try Another?
+		</span>
+		<span class="modal_input_note hidden alert name_missing_warning">
+			Enter a title for the group please!
+		</span>
+		<span class="modal_input_note hidden alert no_invites_warning">
+			There's no point in a group with only one member. Invite people!
+		</span>
+		<span class="modal_input_note hidden alert existing_groups_warning">
+			To be filled in by dialog
+		</span>
+	</p>
+
+	<p>
+		<label for="group_purpose_input" class="inline-block">
+			Purpose<br />
+			<span class="normal">(optional)</span>				
+		</label>
+		<textarea id="group_purpose_input" name="group_purpose_input" type="text" style="height: 3.5rem;" maxlength="{{ChannelPurposeMaxLength}}">{{purpose}}</textarea>
+		<span class="modal_input_note">Give your group a purpose that describes what it will be used for.</span>
+	</p>
+	
+	<div id="create_invite_group_members_holder">
+		{{#if show_ra_tip}}
+			<span class="tiny_bottom_margin modal_input_note">
+				Restricted account members may not appear below. Ask a team admin to invite them after you create the group.
+			</span>
+		{{/if}}
+		<p class="no_bottom_margin" id="select_create_invite_group_members_holder">
+			<label for="group_members" class="inline-block">Invite Members</label>
+			<select multiple="multiple" id="select_create_invite_group_members" name="group_members" size="30">
+				{{#each invite_members}}
+					<option value="{{this.member.id}}" {{#if this.preselected}}selected="selected"{{/if}}>{{#if this.member.real_name}}{{this.member.real_name}} ? {{this.member.name}}{{else}}{{this.member.name}}{{/if}}</option>
+				{{/each}}
+			</select>		
+		</p>
+	</div>
+</script>
+
+<script id="list_browser_dialog_template" type="text/x-handlebars-template">	
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		{{#canUserCreateChannels}}
+		<a class="new_channel_btn btn btn-primary btn-mini float-right"><i class="fa fa-plus"></i> Create New Channel</a>
+		{{/canUserCreateChannels}}
+		<h3>{{title}}</h3>
+	</div>
+	<div class="modal-body">
+		
+		<div id="list_controls">
+
+			<div id="list_search_container">
+				<i class="icon_search fa fa-search"></i>		
+				<a class="fa fa-times-circle icon_close"></a>
+				<input type="text" class="no_margin" id="list_search" name="list_search" placeholder="Search channels by name" />
+			</div>
+			
+			<div id="list_sort_container">
+				Sort by
+				<select id="list_sort" name="list_sort">
+					<option value="name" {{#if_equal active_sort compare='name'}}selected='selected'{{/if_equal}}>Channel Name & Membership</option>
+					<option value="creator" {{#if_equal active_sort compare='creator'}}selected='selected'{{/if_equal}}>Name of Creator</option>
+					<option value="created" {{#if_equal active_sort compare='created'}}selected='selected'{{/if_equal}}>Creation Date (newest first)</option>
+					<option value="members_high" {{#if_equal active_sort compare='members_high'}}selected='selected'{{/if_equal}}>Members (most to fewest)</option>
+					<option value="members_low" {{#if_equal active_sort compare='members_low'}}selected='selected'{{/if_equal}}>Members (fewest to most)</option>
+				</select>
+			</div>
+		</div>
+		
+		<div id="list_browser">
+			<div class="loading_hash_animation"><img src="/assets/img/loading_hash_animation.gif" alt="Loading" /><br />loading...</div>
+		</div>
+		
+	</div>
+	<div class="modal-footer">
+		<a target="{{newWindowName}}" href="/archives/archived" class="float-right mini"><i class="fa fa-archive"></i> View archived channels...</a>
+		<a id="about_channels" class="float-left mini small_left_margin" target="{{newWindowName}}" href="/help/channels"><i class="fa fa-info-circle"></i> About channels...</a>
+	</div>
+</script>
+
+<script id="list_browser_items_template" type="text/x-handlebars-template">
+	{{#each items}}
+		<p class="{{#if this.is_member}}is_member{{else}}joinable{{/if}}">
+			<a class="item_open_link item_name" data-item-id="{{this.id}}"><span class='item_icon'>#</span>{{this.name}}</a><br />
+
+			<span class="item_creator">
+				Created 
+				{{#if this.creator}}
+					by {{{makeMemberPreviewLinkById this.creator}}}
+				{{/if}}
+				on <strong>{{toCalendarDate this.created}}</strong>
+			</span>
+
+			<span class="item_count" title="{{this.num_members}} {{pluralize this.num_members 'member' 'members'}} in this channel">
+				{{#if this.is_member}}
+					<i class="fa fa-check"></i>
+				{{else}}
+					<i class="fa fa-user"></i>
+				{{/if}}
+				{{this.num_members}}
+			</span>
+			
+	
+			{{#unless this.is_member}}
+				<a class="item_open_link item_join_btn btn btn-outline btn-small" data-item-id="{{this.id}}">加入</a>
+			{{/unless}}			
+
+			{{#if this.purpose.value}}
+				<span class="item_purpose">{{{formatTopicOrPurpose this.purpose.value}}}</span>
+			{{/if}}							
+		</p>
+	{{/each}}		
+</script>
+
+<script id="list_browser_items_by_membership_template" type="text/x-handlebars-template">
+	{{#if items_to_join}}
+		<h4 class="small_bottom_margin">Channels you can join</h4>
+		{{#each items_to_join}}
+			<p class="joinable">
+				<a class="item_open_link item_name" data-item-id="{{this.id}}"><span class='item_icon'>#</span>{{this.name}}</a><br />
+
+				<span class="item_creator">
+					Created 
+					{{#if this.creator}}
+						by {{{makeMemberPreviewLinkById this.creator}}}
+					{{/if}}
+					on <strong>{{toCalendarDate this.created}}</strong>
+				</span>
+
+				<span class="item_count" title="{{this.num_members}} {{pluralize this.num_members 'member' 'members'}} in this channel">
+					<i class="fa fa-user"></i>
+					{{this.num_members}}
+				</span>
+			
+				<a class="item_open_link item_join_btn btn btn-outline btn-small" data-item-id="{{this.id}}">Join</a>
+
+				{{#if this.purpose.value}}
+					<span class="item_purpose">{{{formatTopicOrPurpose this.purpose.value}}}</span>
+				{{/if}}							
+			</p>
+		{{/each}}		
+	{{/if}}
+	{{#if items_to_leave}}
+		<h4 class="top_margin small_bottom_margin">
+			{{#if items_to_join}}
+				Channels you belong to
+			{{else}}
+				You are a member of all current channels
+			{{/if}}
+		</h4>
+		{{#each items_to_leave}}
+			<p class="is_member">
+				<a class="item_open_link item_name" data-item-id="{{this.id}}"><span class='item_icon'>#</span>{{this.name}}</a><br />
+
+				<span class="item_creator">
+					Created 
+					{{#if this.user_id}}
+						by {{{makeMemberPreviewLinkById this.user_id}}}
+					{{/if}}
+					on <strong>{{toCalendarDate this.created}}</strong>
+				</span>
+
+				<span class="item_count" title="{{this.num_members}} {{pluralize this.num_members 'member' 'members'}} in this channel">
+					<i class="fa fa-check"></i>
+					{{this.num_members}}
+				</span>
+
+				{{#if this.purpose.value}}
+					<span class="item_purpose">{{{formatTopicOrPurpose this.purpose.value}}}</span>
+				{{/if}}							
+			</p>
+		{{/each}}
+	{{/if}}
+</script>
+
+<script id="menu_template" type="text/x-handlebars-template">
+<div id="menu">
+	<div id="menu_header"></div>
+	<div id="menu_items_scroller">
+		<ul id="menu_items"></ul>
+	</div>
+	<div id="menu_footer"></div>
+</div>
+</script>
+
+<script id="emoji_menu_template" type="text/x-handlebars-template">
+<div id="emoji_menu">
+	<div id="emoji_menu_header"></div>
+	<div id="emoji_menu_items_scroller">
+		<div id="emoji_menu_items_div"></div>
+	</div>
+	<div id="emoji_menu_footer"></div>
+</div>
+</script>
+
+<script id="emoji_header_template" type="text/x-handlebars-template">
+	{{#each emoticon_groups}}
+		<a class="emoji_grouping_tab {{#if_equal this.name compare=../active_group}}active{{/if_equal}}" data-group-name="{{this.name}}">{{{this.tab_html}}}</a>
+	{{/each}}
+</script>
+
+<script id="menu_group_header_template" type="text/x-handlebars-template">
+	<div class="menu_simple_header"><span class="overflow-ellipsis">{{{groupPrefix}}}{{group.name}}</span></div>
+</script>
+
+<script id="menu_group_items_template" type="text/x-handlebars-template">
+	<li id="group_archives_item">		
+		<a target="{{newWindowName}}" href="/archives/{{group.name}}">
+			<i class="fa fa-align-left"></i> Open message archives
+		</a>
+	</li>
+
+	<li id="group_prefs"><a><i class="fa fa-bell"></i> Group notification preferences...</a></li>
+	
+	{{#unless user.is_ultra_restricted}}
+		{{#unless user.is_restricted}}
+			<li id="group_add_service_item"><a href="/services/new?channel_id={{group.id}}" target="{{newWindowName}}"><i class="fa fa-wrench"></i> Add a service integration...</a></li>		
+			<li id="group_invite_item" {{#if disable_invite}}class="disabled"{{/if}} ><a><i class="fa fa-sign-in"></i> Invite others to this group...</a></li>
+		{{/unless}}
+	{{/unless}}
+
+	<li id="group_links_item">    
+		<a target="{{newWindowName}}" href="/archives/{{group.name}}/links">Links from this group</a>
+	</li>
+	<li id="group_star_item" class="star_link star_group {{#if group.is_starred}}starred{{/if}}" data-group-id="{{group.id}}">
+		<a>{{#if group.is_starred}}Unstar{{else}}Star{{/if}} this group</a>
+	</li>
+	
+{{#unless user.is_ultra_restricted}}
+	{{#if user.is_restricted}}
+
+		{{#if group.is_archived}}
+			{{#if ra_can_leave}}<li id="group_close_item"><a><i class="fa fa-sign-out"></i> Leave group</a></li>{{/if}}
+		{{else}}
+	
+			<li id="group_invite_item" {{#if disable_invite}}class="disabled"{{/if}} ><a><i class="fa fa-sign-in"></i> Invite others to this group...</a></li>	
+		
+			{{#if_equal group.active_members.length compare=1}}
+				{{#if ra_can_leave}}<li id="group_leave_and_archive_item"><a><i class="fa fa-archive"></i> Leave and Archive group</a></li>{{/if}}
+			{{else}}
+				{{#if ra_can_leave}}<li id="group_leave_item"><a><i class="fa fa-sign-out"></i> Leave group</a></li>{{/if}}
+			{{/if_equal}}
+		
+		{{/if}}
+	{{else}}
+	
+		{{#if group.is_archived}}
+			<li id="group_unarchive_item"><a>Un-archive group</a></li>
+			<li id="group_close_item"><a><i class="fa fa-sign-out"></i> Leave group</a></li>
+		{{else}}
+
+			{{#if show_purpose_item}}
+				<li id="group_purpose_item"><a>Set group purpose...</a></li>
+			{{/if}}
+
+
+			{{#if_equal group.active_members.length compare=1}}
+				<li id="group_leave_and_archive_item"><a><i class="fa fa-archive"></i> Leave and Archive group</a></li>
+			{{else}}
+				<li id="group_leave_item"><a><i class="fa fa-sign-out"></i> Leave group</a></li>
+			{{/if_equal}}
+		
+		{{/if}}
+	{{/if}}
+{{/unless}}
+</script>
+
+<script id="menu_group_footer_template" type="text/x-handlebars-template">
+	{{#unless user.is_restricted}}
+	<div class="menu_footer menu_group_footer">
+		<span class="menu_meta">Set group topic<span>
+		<input type="text" id="menu_group_topic_input" data-behavior="placeholder" data-hint="Set the group topic" value="{{unFormatMessage group.topic.value}}" maxlength="{{ChannelTopicMaxLength}}"/>
+	</div>
+	{{/unless}}
+</script>
+
+<script id="menu_channel_header_template" type="text/x-handlebars-template">
+	<div class="menu_simple_header"><span class="overflow-ellipsis">#{{channel.name}}</span></div>
+</script>
+
+<script id="menu_channel_items_template" type="text/x-handlebars-template">
+	
+{{#unless user.is_ultra_restricted}}
+	{{#if user.is_restricted}}
+		{{#unless hide_invite}}<li id="channel_invite_item" {{#if disable_invite}}class="disabled"{{/if}} ><a>邀请他人加入...</a></li>{{/unless}}
+
+	{{else}}
+			
+				
+			{{#if channel.is_member}}
+				{{#unless channel.is_general}}<li id="channel_leave_item"><a><i class="fa fa-sign-out"></i> 退出</a></li>{{/unless}}
+			{{else}}
+				<li id="channel_join_item"><a><i class="fa fa-sign-in"></i> 加入</a></li>
+			{{/if}}
+
+	{{/if}}
+{{/unless}}
+	
+</script>
+
+<script id="menu_channel_footer_template" type="text/x-handlebars-template">
+
+</script>
+
+<script id="menu_groups_header_template" type="text/x-handlebars-template">
+	<div class="menu_simple_header"><h4 class="no_bottom_margin" style="font-size: 1rem;">Private Groups</h4></div>
+</script>
+
+<script id="menu_groups_items_template" type="text/x-handlebars-template">
+	{{#each nondisplayed_groups}}
+		<li data-group-id="{{this.id}}"><a href="/archives/{{this.name}}"><span style="color: #AAA;">{{{groupPrefix}}}</span>{{this.name}}
+		({{#if_equal this.active_members.length compare=1}}1 member{{else}}{{this.active_members.length}} members{{/if_equal}})</a></li>
+	{{/each}}
+	{{#if nondisplayed_groups}}<li class="divider"></li>{{/if}}
+{{#canUserCreateGroups}}
+	<li id="new_group_item"><a><i class="fa fa-plus"></i> Create a new group...</a></li>
+{{/canUserCreateGroups}}
+	{{#if show_archived_item}}
+		<li id="groups_archives_item"><a target="{{newWindowName}}" href="/groups"><i class="fa fa-archive"></i> View archived groups...</a></li>
+	{{/if}}
+	<li id="about_groups_item"><a target="{{newWindowName}}" href="/help/private-groups"><i class="fa fa-info-circle"></i> About private groups...</a></li>
+
+</script>
+
+<script id="menu_member_header_template" type="text/x-handlebars-template">
+	<div class="menu_member_header">
+		<div class="menu_member_user_details">
+			{{{makeMemberPreviewLinkImage member.id 48}}}
+			<span class="member_name">{{member.name}}</span>
+			{{{makeMemberPresenceIcon member}}}
+			{{#if member.is_restricted}}
+				<span class="mini subtle_silver normal">
+				{{#if member.is_ultra_restricted}}
+					(Single-channel Guest)
+				{{else}}
+					(Restricted Account)
+				{{/if}}
+				</span>
+			{{/if}}
+			<br />			
+			<span class="member_real_name">{{#if member.real_name}}{{member.real_name}}{{else}}&nbsp;{{/if}}</span>
+			{{#unless member.is_slackbot}}
+				{{#memberIsSelf id=member.id}}
+				{{else}}
+					<div class="member_tz no_wrap">{{{timezoneLabel member true}}}</div>
+				{{/memberIsSelf}}
+			{{/unless}}
+		</div>
+	</div>
+</script>
+
+<script id="menu_member_items_template" type="text/x-handlebars-template">
+	{{#if member.is_self}}
+		<li id="member_prefs_item"><a><i class="fa fa-wrench"></i> Preferences</a></li>
+		<li id="member_account_item"><a href="/account/settings" target="{{newWindowName}}"><i class="fa fa-cog"></i> Account</a></li>
+		<li id="member_profile_item"><a href="/team/{{member.name}}">Profile</a></li>
+		{{#if member.has_files}}<li id="member_files_item"><a href="/files/{{member.name}}" target="{{newWindowName}}">Files</a></li>{{/if}}
+		<li id="member_photo_item"><a href="/account/photo" target="{{newWindowName}}">Change your photo</a></li>
+		<li id="member_presence">
+			<a>
+				<span class="menu_item_label">
+					{{#if_equal member.presence compare="active"}}
+						Set yourself away&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					{{else}}
+						[Away] Set yourself to active
+					{{/if_equal}}
+				</span>
+			</a>
+		</li>
+
+		<li class="divider"></li>
+		
+		{{#if other_accounts}}
+			{{#each other_accounts}}
+				<li class="switch_team" data-team-id="{{this.team_id}}">
+					{{#if @first}}<i class="fa fa-random"></i>{{/if}}
+					<a href="{{this.team_url}}messages"><i class="fa fa-random"></i> Switch to {{this.name}} ({{this.team_name}})</a>
+				</li>
+			{{/each}}
+		{{/if}}
+
+		{{#if logout_url}}
+			<li id="logout">
+				<a href="{{logout_url}}"><i class="fa fa-sign-out"></i> Sign Out</a>
+			</li>
+		{{/if}}
+		
+	{{else}}
+		{{#if im}}
+			<li id="member_archives_item">		
+				<a target="{{newWindowName}}" href="/archives/{{im.id}}">
+					<i class="fa fa-align-left"></i> Open message archives
+				</a>
+			</li>
+			<li id="member_links_item">    
+				<a target="{{newWindowName}}" href="/archives/{{im.id}}/links">
+					Links from this conversation
+				</a>
+			</li>
+			<li id="member_star_item" class="star_link star_im {{#if im.is_starred}}starred{{/if}}" data-im-id="{{im.id}}">
+				<a>{{#if im.is_starred}}Unstar{{else}}Star{{/if}} this conversation</a>
+			</li>			
+			<li class="divider"></li>
+		{{/if}}
+		<li id="member_profile_item"><a href="/team/{{member.name}}"><i class="fa fa-user"></i> View Profile</a></li>
+		{{#if show_dm_item}}
+			{{#unless member.deleted}}
+				<li id="member_dm_item"><a href="/messages/@{{member.name}}"><i class="fa fa-comment"></i> Direct Messages</a></li>
+			{{/unless}}
+		{{/if}}
+		{{#if member.profile.skype}}<li id="member_skype_item"><a href="skype:{{member.profile.skype}}?call" target="{{newWindowName}}"><i class="fa fa-skype"></i> Call on Skype ({{member.profile.skype}})</a></li>{{/if}}
+		{{#if member.has_files}}<li id="member_files_item"><a href="/files/{{member.name}}" target="{{newWindowName}}"> View Files</a></li>{{/if}}
+		{{#if channel_kick_name}}<li id="member_kick_channel_item"><a>Remove from <b>{{channel_kick_name}}</b></a></li>{{/if}}
+		{{#if show_channel_invite}}<li id="member_invite_channel_item"><a>Invite to a channel...</a></li>{{/if}}
+		{{#if show_group_invite}}<li id="member_invite_group_item"><a>Invite to a private group...</a></li>{{/if}}
+		{{#if show_group_create}}<li id="member_create_group_item"><a>Create a new private group...</a></li>{{/if}}
+
+		{{#if show_slackbot_responses_item}}
+			<li id="member_slackbot_responses"><a href="/customize/slackbot" target="{{newWindowName}}">Create/edit Slackbot responses</a></li>
+		{{/if}}
+	{{/if}}
+</script>
+
+<script id="menu_member_footer_template" type="text/x-handlebars-template">
+	<div class="menu_footer">
+		{{#if member.deleted}}
+			<p class="no_bottom_margin">This user account is inactive.</p>
+		{{else}}
+			<span class="menu_meta">Send a direct message<span>
+			<textarea type="text" id="menu_member_dm_input" rows="1"></textarea>
+		{{/if}}
+	</div>
+</script>
+
+<script id="menu_team_items_template" type="text/x-handlebars-template">
+
+	{{#if user.is_admin}}
+		<li id="team_admin">
+			<a href="/admin" target="{{newWindowName}}"><i class="fa fa-cogs"></i> Team Administration</a>
+		</li>
+	{{/if}}
+
+
+	{{#if user.is_admin}}
+		{{#if show_invite_item}}
+			<li id="team_invitations">
+				<a href="/admin/invites" target="{{newWindowName}}"><i class="fa fa-envelope-o"></i> Send Invitations</a>
+			</li>
+		{{/if}}
+	{{/if}}
+	
+	{{#if other_accounts}}
+		<li class="divider"></li>
+		{{#each other_accounts}}
+			<li class="switch_team" data-team-id="{{this.team_id}}" data-user-id="{{this.id}}">
+				<a href="{{this.team_url}}messages"> 
+					<i class="fa fa-random"></i>
+					Switch to <strong>{{this.team_name}}</strong>
+				</a>
+			</li>
+		{{/each}}
+	{{/if}}
+	
+	{{#if signin_url}}
+		<li id="add_team"><a href="{{signin_url}}"> Sign in to another team...</a></li>
+	{{/if}}
+
+	{{#if logout_url}}
+		<li class="divider"></li>
+		<li id="logout"><a href="{{logout_url}}"><i class="fa fa-sign-out"></i> 退出</a></li>
+	{{/if}}
+
+</script>
+
+<script id="menu_user_items_template" type="text/x-handlebars-template">
+
+
+	{{#if logout_url}}
+		<li class="divider"></li>
+		<li id="logout">
+			<a href="{{logout_url}}"><i class="fa fa-sign-out"></i> 退出</a>
+		</li>
+	{{/if}}
+
+</script>
+
+<script id="menu_user_footer_template" type="text/x-handlebars-template">
+	{{#feature flag="feature_status"}}
+	<div class="menu_footer">
+		Set your status:<br />
+		<input type="text" id="menu_user_status_input" data-behavior="placeholder" data-hint="Set your status" value="{{user.status}}" />
+	</div>
+	{{/feature}}
+</script>
+
+<script id="menu_members_header_template" type="text/x-handlebars-template">
+	<div class="menu_simple_header" style="width: 280px; padding: 0.6rem 0.5rem;">
+		<a class="fa fa-times menu_close"></a>
+		<h4 class="no_bottom_margin" style="margin-left: 0.25rem; font-size: 1rem;">Direct Message</h4>
+	</div>
+	{{#if show_filter}}
+		<div id="dms_filter" class="position-relative" data-list-items-id="#menu">
+			<i class="icon_search fa fa-search"></i>
+			<a class="icon_close fa fa-times-circle hidden"></a>
+			<input type="text" class="member_filter" name="team_filter" placeholder="Find by name" />
+			<p id="dms_no_matches" class='no_matches hidden subtle_silver'>
+				No team members found matching <span class="query bold"></span>.
+			</p>	
+		</div>
+	{{/if}}
+</script>
+
+<script id="menu_members_items_template" type="text/x-handlebars-template">	
+	{{#each members}}
+		<li class="dm_list_item member_item active" data-member-id="{{this.id}}">
+			<a href="/team/{{this.name}}">
+				{{{makeMemberImage this.id 36 true}}}
+				<span class="dm_list_username overflow-ellipsis">
+					{{this.name}}
+					{{{makeMemberPresenceIcon this}}}
+				</span>
+				{{#if this.profile}}
+					{{#if this.profile.real_name}}
+						<br />
+						<span class="dm_list_real_name overflow-ellipsis">{{this.profile.real_name}}</span>
+					{{/if}}
+				{{/if}}
+			</a>
+		</li>
+	{{/each}}
+</script>
+
+<script id="menu_members_footer_template" type="text/x-handlebars-template">
+	<div class="menu_footer">
+		<a id="about_dms_link" target="{{newWindowName}}" href="/help/direct-messages" class="align-right"><i class="fa fa-info-circle"></i> About direct messages...</a>
+	</div>
+</script>
+
+<script id="menu_emoticons_template" type="text/x-handlebars-template">
+	{{#each emoticon_groups}}
+		<ul class="emoticon_group_ul {{#if_not_equal this.name compare=../active_group}}hidden{{/if_not_equal}}" id="emoticon_group_ul_{{this.name}}">
+		{{#each this.items}}
+			<li class="emoticon_item emoticon_item_emoji"><a data-name="{{this.name}}" data-names="{{this.names}}" data-icon="{{this.name}}">{{{this.emoji}}}</a></li>
+		{{/each}}
+		</ul>
+	{{/each}}
+</script>
+
+<script id="message_template" type="text/x-handlebars-template">
+
+
+
+	<div id="{{makeMsgDomId msg.ts}}" class="{{#if msg.no_display}}hidden{{/if}} message {{makeMsgDomClass msg}} {{#if show_user}}show_user{{/if}} {{#if is_ephemeral}}ephemeral{{/if}} {{#showAvatars}}avatar{{/showAvatars}} {{#if first_in_block}}first{{/if}} {{#if unread}}unread{{/if}} {{#if unprocessed}}unprocessed{{/if}} {{#if highlight}}highlight{{/if}} {{#if show_divider}}divider{{/if}}" data-ts="{{msg.ts}}">
+  {{#if_equal theme compare='light'}}
+		{{#if show_user}}
+			{{#if member}}
+				{{{makeMemberPreviewLinkImage member.id 36}}}
+			{{else}}
+				{{{makeUsernameImage msg 36}}}
+			{{/if}}
+		{{/if}}
+	{{/if_equal}}
+	{{! DENSE ------------------------------------------------ }}
+		{{#if_equal theme compare='dense'}}
+			{{#if permalink}}
+				<i class="copy_only"><br>[</i><a href="{{permalink}}" target="{{newWindowName}}" title="{{{msgTsTitle msg}}}" class="timestamp {{#if show_user}}{{else}}no_user{{/if}}">{{#if full_date}}{{toCalendarDateOrNamedDayShort msg.ts}} at {{/if}}{{toTime msg.ts}}</a><i class="copy_only">]</i>
+			{{else}}
+				<i class="copy_only"><br>[</i><span title="{{{msgTsTitle msg}}}" class="timestamp {{#if show_user}}{{else}}no_user{{/if}}">{{#if full_date}}{{toCalendarDateOrNamedDayShort msg.ts}} at {{/if}}{{toTime msg.ts}}</span><i class="copy_only">]</i>
+			{{/if}}
+		{{/if_equal}}
+	{{! /DENSE ------------------------------------------------ }}
+	
+	{{! LIGHT ------------------------------------------------ }}
+		{{#if_equal theme compare='light'}}
+			<i class="copy_only"><br></i>
+		{{/if_equal}}
+	{{! /LIGHT ------------------------------------------------ }}
+		
+		
+		{{! NOTE: the spaces at the start of the below elements are important for copied text formatting (and they should not affect html rendering)}}
+		{{#unless show_user}}<i class="copy_only">{{/unless}}
+		{{#if member}}
+			<a href="/team/{{member.name}}" {{#isClient}}target="/team/{{member.name}}"{{/isClient}} class="message_sender member {{getMemberColorClassById member.id}}" data-member-id="{{member.id}}"> {{getMemberDisplayName member}}</a><i class="copy_only">{{#if_equal theme compare='dense'}}:{{/if_equal}}</i>
+		{{else}}
+			<span class="message_sender {{getBotColorClassByUserName msg.username}}"> {{#showAvatars}}{{{getBotNameWithLink msg}}}{{else}}{{{getBotNameAndIcon msg}}}{{/showAvatars}}</span><i class="copy_only">{{#if_equal theme compare='dense'}}:{{/if_equal}}</i>
+		{{/if}}
+		{{#unless show_user}}</i>{{/unless}}
+		
+		
+	{{! LIGHT ------------------------------------------------ }}
+		{{#if_equal theme compare='light'}}
+			{{#if show_user}}
+				{{#if permalink}}
+					<i class="copy_only">[</i><a href="{{permalink}}" target="{{newWindowName}}" title="{{{msgTsTitle msg}}}" class="timestamp">{{#if full_date}}{{toCalendarDateOrNamedDayShort msg.ts}} at {{/if}}{{toTime msg.ts}}</a><i class="copy_only">]</i>
+				{{else}}
+					<i class="copy_only">[</i><span title="{{{msgTsTitle msg}}}" class="timestamp">{{#if full_date}}{{toCalendarDateOrNamedDayShort msg.ts}} at {{/if}}{{toTime msg.ts}}</span><i class="copy_only">]</i>
+				{{/if}}
+
+
+
+				{{#if is_ephemeral}}<span class="ephemeral_notice small_left_margin">Only you can see this message</span>{{/if}}
+			{{else}}
+				{{#if permalink}}
+					<i class="copy_only">[{{#if full_date}}{{toCalendarDateOrNamedDayShort msg.ts}} at {{/if}}{{toTime msg.ts}}]</i><a href="{{permalink}}" target="{{newWindowName}}" title="{{{msgTsTitle msg}}}" class="timestamp">{{#if full_date}}{{toCalendarDateOrNamedDayShort msg.ts}} at {{/if}}{{toTime msg.ts false}}</a>
+				{{else}}
+					<i class="copy_only">[{{#if full_date}}{{toCalendarDateOrNamedDayShort msg.ts}} at {{/if}}{{toTime msg.ts}}]</i><span title="{{{msgTsTitle msg}}}" class="timestamp">{{#if full_date}}{{toCalendarDateOrNamedDayShort msg.ts}} at {{/if}}{{toTime msg.ts false}}</span>
+				{{/if}}
+			{{/if}}
+			
+			{{#if jump_link}}{{{jump_link}}}{{/if}}
+		{{/if_equal}}
+	{{! /LIGHT ------------------------------------------------ }}
+	
+		<span class="message_content"> 
+			{{{formatMessageVerySimple msg do_inline_imgs enable_slack_action_links}}}
+			{{#if msg.edited}}
+				<span class="edited" data-toggle="tooltip" title="{{toCalendarDateOrNamedDayShort msg.edited.ts}} at {{toTime msg.edited.ts true true}}">(edited)</span>
+			{{/if}}			
+		</span>
+		
+	{{! DENSE ------------------------------------------------ }}
+		{{#if_equal theme compare='dense'}}
+			{{#if show_user}}
+				{{#if is_ephemeral}}<span class="ephemeral_notice">Only you can see this message</span>{{/if}}		
+			{{/if}}
+		{{/if_equal}}
+	{{! /DENSE ------------------------------------------------ }}
+		
+		{{#if unprocessed}}
+			<span class="temp_msg_controls {{#unless show_resend_controls}}hidden{{/unless}}">(this message send failed, would you like to <nobr><a class="resend_temp_msg">resend</a> ? <a class="remove_temp_msg">remove</a>?)</nobr></span>
+		{{/if}}
+	</div>
+</script>
+
+<script id="messages_day_divider_template" type="text/x-handlebars-template">
+	<div class="day_divider" id="{{makeDayDividerDomId ts}}" data-date="{{toCalendarDate ts}}" data-ts="{{ts}}"><hr /><i class="copy_only"><br>----- </i><div class="day_divider_label">{{toCalendarDateOrNamedDay ts}}</div><i class="copy_only"> {{toCalendarDateIfYesterdayOrTomorrow ts}} -----</i></div>
+</script>
+
+<script id="messages_unread_divider_template" type="text/x-handlebars-template">
+	<div id="msgs_unread_divider" class="unread_divider">
+		<hr />
+		<span class="divider_label">新消息</span>
+	</div>
+</script>
+

@@ -1,0 +1,140 @@
+@-webkit-keyframes progress_bar{from{background-position:0 0}
+to{background-position:-56px 0}
+}
+@-moz-keyframes progress_bar{from{background-position:0 0}
+to{background-position:-56px 0}
+}
+@-o-keyframes progress_bar{from{background-position:0 0}
+to{background-position:-56px 0}
+}
+@keyframes progress_bar{from{background-position:0 0}
+to{background-position:-56px 0}
+}
+.helvetica{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
+.lato{font-family:'Lato',sans-serif;font-weight:400;-webkit-font-smoothing:antialiased}
+.lato_black{font-family:'Lato',sans-serif;font-weight:900}
+.lato_bold{font-family:'Lato',sans-serif;font-weight:700}
+.lato_regular{font-family:'Lato',sans-serif;font-weight:500}
+.monospace{font-family:"Monaco","Menlo","Consolas","Courier New",monospace !important}
+.burnt_violet{color:#4d394b !important}
+.burnt_violet_bg{background-color:#4d394b !important}
+.ocean_teal{color:#4c9689 !important}
+.ocean_teal_bg{background-color:#4c9689 !important}
+.havana_blue{color:#2a80b9 !important}
+.havana_blue_bg{background-color:#2a80b9 !important}
+.pale_blue{color:#f1f7fa !important}
+.pale_blue_bg{background-color:#f1f7fa !important}
+.candy_red{color:#eb4d5c !important}
+.candy_red_bg{background-color:#eb4d5c !important}
+.indifferent_grey{color:#555459 !important}
+.indifferent_grey_bg{background-color:#555459 !important}
+.severe_grey{color:#3d3c40 !important}
+.severe_grey_bg{background-color:#3d3c40 !important}
+.dull_grey{color:#8b898f !important}
+.dull_grey_bg{background-color:#8b898f !important}
+.subtle_silver{color:#9e9ea6 !important}
+.subtle_silver_bg{background-color:#9e9ea6 !important}
+.cloud_silver{color:#babbbf !important}
+.cloud_silver_bg{background-color:#babbbf !important}
+.sky_blue{color:#439fe0 !important}
+.sky_blue_bg{background-color:#439fe0 !important}
+.slate_blue{color:#3d4b5b !important}
+.slate_blue_bg{background-color:#3d4b5b !important}
+.muddy_lilac{color:#937e91 !important}
+.muddy_lilac_bg{background-color:#937e91 !important}
+.moscow_red{color:#d00000 !important}
+.moscow_red_bg{background-color:#d00000 !important}
+.moscow_red_dark{color:#870000 !important}
+.moscow_red_dark_bg{background-color:#870000 !important}
+.mustard_yellow{color:#daa038 !important}
+.mustard_yellow_bg{background-color:#daa038 !important}
+.kelly_green{color:#36a64f !important}
+.kelly_green_dark{color:#257337 !important}
+.kelly_green_bg{background-color:#36a64f !important}
+.seafoam_green{color:#2ab27b !important}
+.seafoam_green_bg{background-color:#2ab27b !important}
+.star_yellow{color:#fc0 !important}
+.star_yellow_bg{background-color:#fc0 !important}
+.highlight_yellow_bg{background-color:#fffce0 !important}
+.dropbox_blue{color:#007ee5 !important}
+.dropbox_blue_bg{background-color:#007ee5 !important}
+.twitter_blue{color:#55acee !important}
+.twitter_blue_bg{background-color:#55acee !important}
+.warm_white{color:#fbfaf8 !important}
+.warm_white_bg{background-color:#fbfaf8 !important}
+.cloud_white{color:#f2f2f5 !important}
+.cloud_white_bg{background-color:#f2f2f5 !important}
+html,body,div{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;-webkit-font-smoothing:antialiased}
+*{-ms-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+body{background-image:url(https://slack.global.ssl.fastly.net/8831/img/landing_paper_bg_tile.jpg);background-position:center center;background-repeat:repeat;background-size:100%;text-shadow:0 1px white}
+.container{width:960px;padding:1.5rem;margin:0 auto;position:relative}
+.credits_banner{background-image:url(https://slack.global.ssl.fastly.net/20655/img/credits_banner.png);background-repeat:no-repeat;background-position:center;width:697px;height:68px;line-height:74px;font-size:1.25rem;color:white;text-shadow:0 1px 1px rgba(0,0,0,0.5);text-align:center;margin:0 auto}
+body{font-size:16px;font-family:'Lato',sans-serif;font-weight:500;color:#555459;text-align:center}
+p{font-size:1.5rem;line-height:2rem}
+p.small{font-size:1rem;color:#ab9ba9}
+h1,h2,h3{font-family:'Lato',sans-serif;font-weight:700}
+h1{font-size:4rem;line-height:5rem;letter-spacing:-1px;margin:0 auto .5rem}
+h2{font-size:2.5rem;line-height:3rem}
+a,a:link,a:visited{color:#2a80b9;text-decoration:none;-webkit-transitionDISABLED:color .1s ease-out;-moz-transitionDISABLED:color .1s ease-out;-o-transitionDISABLED:color .1s ease-out;transitionDISABLED:color .1s ease-out}
+a:hover,a:active{color:#439fe0;text-decoration:underline}
+.section{width:100%}
+.section.contact form{max-width:408px}
+.section.sunburst{background-image:url(https://slack.global.ssl.fastly.net/20655/img/sunburst.png);background-repeat:no-repeat;background-position:center top}
+.section .col{float:left;width:42%}
+.section .col.left{margin:1rem 3rem 1rem 1.5rem}
+.section .col.right{margin:1rem 1.5rem 1rem 3rem}
+.invite_calendar{background-image:url(https://slack.global.ssl.fastly.net/15308/img/calendar.png);background-repeat:no-repeat;background-position:center;text-align:center;display:block;width:236px;height:200px;margin:.5rem auto;float:right}
+.invite_month{color:white;font-weight:500;font-size:1.25rem;display:block;margin:.5rem auto;text-shadow:0 1px rgba(0,0,0,0.5)}
+.invite_day{font-size:4.5rem;font-weight:900;display:block;line-height:8rem;letter-spacing:-4px}
+.invite_details p{font-size:1.25rem;line-height:1.5rem}
+#love_link{margin:1rem 0 0;background-image:url(https://slack.global.ssl.fastly.net/13099/img/heart.jpg);background-repeat:no-repeat;background-position:center;background-size:140px;height:140px;transition:background-size .25s}
+#love_link a{color:#eb4d5c}
+#love_link:hover{background-size:160px}
+.section.form{margin:0 auto}
+.section.form p.question{margin-bottom:0;font-size:1.1rem;font-weight:700}
+.section.form p.options{font-size:1.1rem;line-height:1.75rem;margin:0 0 2rem}
+input[type="text"],input[type="email"],textarea{padding:.75rem;background:#fbfaf8;border:0;-webkit-border-radius:.25rem;-moz-border-radius:.25rem;border-radius:.25rem;margin:.5rem .25rem;color:#555459;font-weight:700;font-size:1.1rem;font-family:'Lato',sans-serif;-webkit-appearance:none;vertical-align:bottom;height:48px}
+input[type="text"],input[type="email"]{width:400px}
+form.survey input[type="text"],.contact form input[type="text"],form.survey input[type="email"],.contact form input[type="email"],form.survey textarea,.contact form textarea{border:1px solid #BBB}
+::-webkit-input-placeholder{color:#9e9ea6}
+:-moz-placeholder{color:#9e9ea6}
+::-moz-placeholder{color:#9e9ea6}
+:-ms-input-placeholder{color:#9e9ea6}
+input[type="text"].placeholdersjs,input[type="email"].placeholdersjs{color:#9e9ea6}
+input[type="radio"],input[type="checkbox"]{vertical-align:middle;display:inline-block;margin-top:-2px;margin-right:.5rem}
+input#email{width:300px}
+input#company{width:300px}
+textarea{width:400px;max-width:100%;height:150px;font-weight:400;font-size:1rem;padding:1rem}
+form.survey{text-align:left;max-width:400px;margin:2rem auto}
+form.survey input[type="text"]{padding:.5rem 1rem;font-weight:400;font-size:1rem;margin:.5rem 0}
+form.survey input.other{margin:.25rem 0 0 1.7rem;display:block;width:300px;max-width:90%}
+.mail_stamp{width:204px;height:204px;background-image:url(https://slack.global.ssl.fastly.net/18458/img/stamp_email.png);margin:8.5rem auto 1rem;background-size:100%}
+.letter_box{width:494px;height:142px;background-image:url(https://slack.global.ssl.fastly.net/18458/img/bkg_letter.png);background-repeat:no-repeat;margin:0 auto;padding:1rem 0;background-size:100%}
+@media only screen and (-webkit-min-device-pixel-ratio:2),only screen and (min--moz-device-pixel-ratio:2),only screen and (-o-min-device-pixel-ratio:2/1),only screen and (min-device-pixel-ratio:2),only screen and (min-resolution:192dpi),only screen and (min-resolution:2dppx){.mail_stamp{background-image:url(https://slack.global.ssl.fastly.net/18458/img/stamp_email@2x.png)}
+.letter_box{background-image:url(https://slack.global.ssl.fastly.net/18458/img/bkg_letter.png)}
+.credits_banner{background-image:url(https://slack.global.ssl.fastly.net/14721/img/credits_banner_@2x.png);background-size:100%}
+.invite_calendar{background-image:url(https://slack.global.ssl.fastly.net/15308/img/calendar_@2x.png);background-size:100%}
+}
+.show_on_mobile{display:none}
+@media only screen and (min-width:768px) and (max-width:1024px){.container{width:100%}
+}
+@media only screen and (min-width:768px) and (max-width:1023px){.container{width:100%}
+input#email,input#company{width:244px;padding:.75rem 0 .75rem 1rem}
+}
+@media only screen and (max-width:767px){.show_on_mobile{display:block}
+.hide_on_mobile{display:none}
+.container{width:100%}
+.credits_banner{background-image:url(https://slack.global.ssl.fastly.net/14748/img/credits_banner_mobile_@2x.png);background-size:100%;line-height:56px;font-size:1.1rem;height:54px}
+.section.form .container{padding:1.5rem 1rem}
+input[type="text"],input[type="email"],textarea{width:100% !important;padding:.75rem 1.25rem;margin:.5rem 0}
+.section.form p{font-size:1.25rem;line-height:1.75rem}
+.section.form p.options{margin-left:0}
+select{width:70%}
+h1{font-size:2.2rem;line-height:2.5rem;margin:0 auto 1rem}
+h2{font-size:1.4rem;line-height:2rem}
+p{font-size:1.1rem;line-height:1.5rem}
+.section .col{float:none;width:100%;margin:1.5rem 0 !important}
+.invite_calendar{float:none}
+.mail_stamp{width:140px;height:140px;margin:1rem auto 1.5rem}
+.letter_box{max-width:100%;height:auto;margin-bottom:0;padding:.5rem 0}
+}

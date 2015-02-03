@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{lang.clientSiteTitle}}</title>
+
+    <link href="{{ROOT_URL}}/assets/css/rollup.css" rel="stylesheet">
+    
+		<link href="{{ROOT_URL}}/assets/css/utilities.css" rel="stylesheet" type="text/css">
+		<link href="{{ROOT_URL}}/assets/css/buttons.css" rel="stylesheet" type="text/css">
+		<link href="{{ROOT_URL}}/assets/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+		<link href="{{ROOT_URL}}/assets/css/go_page_launched.css" rel="stylesheet" type="text/css">
+    
+    
+</head>
+
+<body >
+	<div class="section sunburst" style="margin-top: -8rem;">
+
+		<div class="container">
+			
+			<div class="mail_stamp"></div>
+			<h1>You are signed up!</h1>
+			<h2 class="no_top_margin">Now, go check your email.</h2>
+			<div class="letter_box">
+				<p><strong>{{email}}</strong></p>
+				<p class="mini" style="margin-top: -0.25rem;">(The email contains a magic link to get your team set up.)</p>
+			</div>
+      {% if teamcount > 0 %}
+							<p>Based on the company name you entered, your team might already be signed up on Slack. Ask around and see if your team already has an account.</p>
+			{% endif %}			
+			
+		</div>
+
+	</div>
+
+	
+
+	</body>	
+</html>

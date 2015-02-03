@@ -1,0 +1,283 @@
+@-webkit-keyframes progress_bar{from{background-position:0 0}
+to{background-position:-56px 0}
+}
+@-moz-keyframes progress_bar{from{background-position:0 0}
+to{background-position:-56px 0}
+}
+@-o-keyframes progress_bar{from{background-position:0 0}
+to{background-position:-56px 0}
+}
+@keyframes progress_bar{from{background-position:0 0}
+to{background-position:-56px 0}
+}
+.helvetica{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
+.lato{font-family:'Lato',sans-serif;font-weight:400;-webkit-font-smoothing:antialiased}
+.lato_black{font-family:'Lato',sans-serif;font-weight:900}
+.lato_bold{font-family:'Lato',sans-serif;font-weight:700}
+.lato_regular{font-family:'Lato',sans-serif;font-weight:500}
+.monospace{font-family:"Monaco","Menlo","Consolas","Courier New",monospace !important}
+.burnt_violet{color:#4d394b !important}
+.burnt_violet_bg{background-color:#4d394b !important}
+.ocean_teal{color:#4c9689 !important}
+.ocean_teal_bg{background-color:#4c9689 !important}
+.havana_blue{color:#2a80b9 !important}
+.havana_blue_bg{background-color:#2a80b9 !important}
+.pale_blue{color:#f1f7fa !important}
+.pale_blue_bg{background-color:#f1f7fa !important}
+.candy_red{color:#eb4d5c !important}
+.candy_red_bg{background-color:#eb4d5c !important}
+.indifferent_grey{color:#555459 !important}
+.indifferent_grey_bg{background-color:#555459 !important}
+.severe_grey{color:#3d3c40 !important}
+.severe_grey_bg{background-color:#3d3c40 !important}
+.dull_grey{color:#8b898f !important}
+.dull_grey_bg{background-color:#8b898f !important}
+.subtle_silver{color:#9e9ea6 !important}
+.subtle_silver_bg{background-color:#9e9ea6 !important}
+.cloud_silver{color:#babbbf !important}
+.cloud_silver_bg{background-color:#babbbf !important}
+.sky_blue{color:#439fe0 !important}
+.sky_blue_bg{background-color:#439fe0 !important}
+.slate_blue{color:#3d4b5b !important}
+.slate_blue_bg{background-color:#3d4b5b !important}
+.muddy_lilac{color:#937e91 !important}
+.muddy_lilac_bg{background-color:#937e91 !important}
+.moscow_red{color:#d00000 !important}
+.moscow_red_bg{background-color:#d00000 !important}
+.moscow_red_dark{color:#870000 !important}
+.moscow_red_dark_bg{background-color:#870000 !important}
+.mustard_yellow{color:#daa038 !important}
+.mustard_yellow_bg{background-color:#daa038 !important}
+.kelly_green{color:#36a64f !important}
+.kelly_green_dark{color:#257337 !important}
+.kelly_green_bg{background-color:#36a64f !important}
+.seafoam_green{color:#2ab27b !important}
+.seafoam_green_bg{background-color:#2ab27b !important}
+.star_yellow{color:#fc0 !important}
+.star_yellow_bg{background-color:#fc0 !important}
+.highlight_yellow_bg{background-color:#fffce0 !important}
+.dropbox_blue{color:#007ee5 !important}
+.dropbox_blue_bg{background-color:#007ee5 !important}
+.twitter_blue{color:#55acee !important}
+.twitter_blue_bg{background-color:#55acee !important}
+.warm_white{color:#fbfaf8 !important}
+.warm_white_bg{background-color:#fbfaf8 !important}
+.cloud_white{color:#f2f2f5 !important}
+.cloud_white_bg{background-color:#f2f2f5 !important}
+#col_messages{margin-left:0;position:relative}
+.collapsible #messages_container{margin-left:0}
+#messages_container{margin-left:220px}
+#client-ui.flex_pane_showing #messages_container{margin-right:392px}
+@media screen and (min-width:1367px){#client-ui.flex_pane_showing #messages_container{margin-right:442px}
+}
+@media screen and (min-width:1441px){#client-ui.flex_pane_showing #messages_container{margin-right:492px}
+}
+.collapsible #msgs_scroller_div{padding-left:15px}
+#msgs_scroller_div{overflow-y:auto;outline:0}
+.msgs_holder{padding:0 18px 1rem 1.5rem;margin:0;clear:both;overflow-x:hidden}
+.message{border-top:1px solid transparent;position:relative;word-wrap:break-word;clear:both;-webkit-transitionDISABLED:background .5s ease-out;-moz-transitionDISABLED:background .5s ease-out;-o-transitionDISABLED:background .5s ease-out;transitionDISABLED:background .5s ease-out;-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}
+.message_sender{word-break:break-word}
+.message .mention{background:#fff3b8}
+.message .inline_color_block{display:inline-block;margin:0 .1rem -1px 0;width:13px;height:13px;border:1px solid #555459;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px}
+.message .mention_channel{background:#fff3b8}
+.message .mention_everyone{background:#fff3b8}
+.message .mention_group{background:#fff3b8}
+.message.unprocessed{color:#999}
+.message.highlight{background:#fff5cf;-webkit-border-radius:.25rem;-moz-border-radius:.25rem;border-radius:.25rem}
+.message.internal_member_link,.message.internal_channel_link{cursor:pointer}
+.para_break{display:block;height:.5rem}
+.message .star{visibility:hidden}
+.message .star.starred{visibility:visible;-moz-opacity:.7;-khtml-opacity:.7;-webkit-opacity:.7;opacity:.7;-ms-filter:alpha(opacity=70);filter:alpha(opacity=70)}
+.message:hover .star,.message:hover .star.starred{visibility:visible;-moz-opacity:1;-khtml-opacity:1;-webkit-opacity:1;opacity:1;-ms-filter:alpha(opacity=100);filter:alpha(opacity=100)}
+.selecting_messages .message .star,.selecting_messages .message .star.starred,.selecting_messages .message:hover .star,.selecting_messages .message:hover .star.starred{visibility:hidden}
+.message .edited,.message .temp_msg_controls{font-size:.7rem;color:#CCC}
+.message .edited{cursor:pointer}
+.selecting_messages .message .msg_actions .msg_cog{display:none}
+.selecting_messages .message .msg_actions .msg_select_cb{display:inline}
+.selecting_messages .message .msg_actions .msg_select_cb{display:block}
+.message .msg_actions .msg_select_cb{display:none}
+.selecting_messages .message .msg_actions{background:0;padding:0 9px 1px 2px}
+.message .msg_actions{display:none;position:absolute;top:0;right:0;background:white;padding:3px 0 1px 2px;line-height:1.1rem;color:#DDD;font-size:1rem}
+.message:hover .msg_actions{display:block}
+.selecting_messages .message .msg_actions{display:block}
+.message:hover .msg_actions:hover{text-decoration:none;color:#555459}
+.message.delete_mode,.message.multi_delete_mode,.selecting_messages .message.multi_delete_mode:hover{background:#ffcfcf;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0}
+.message.edit_mode{background:#fff5cf;-webkit-border-radius:.25rem;-moz-border-radius:.25rem;border-radius:.25rem}
+.selecting_messages .message:hover{background:#e8e8ec;-webkit-border-radius:.25rem;-moz-border-radius:.25rem;border-radius:.25rem}
+#msgs_scroller_div #end_display_div{padding:1rem;margin:1rem 0}
+#msgs_scroller_div #end_display_div #end_display_status{text-align:center;color:#cecece;font-style:italic;padding:1rem}
+#msgs_scroller_div #end_display_div #end_display_meta{padding:0 1.1rem 0 0;font-size:1.1rem;color:#9e9ea6;font-family:'Lato',sans-serif;line-height:1.5rem;max-width:750px}
+#msgs_scroller_div #end_display_div #end_display_welcome{padding-bottom:3rem;max-width:750px}
+#msgs_scroller_div #end_display_div #end_display_welcome h1{font-size:36px;line-height:36px;color:#4d394b}
+#msgs_scroller_div #end_display_div #end_display_meta h1{font-size:30px;line-height:30px;color:#4d394b}
+#msgs_scroller_div #end_display_div #end_display_welcome p{font-size:1.4rem;line-height:1.8rem;max-width:500px}
+#welcome_slide_slack_logo{width:392px;margin:2rem 0 1rem -3rem}
+#msgs_scroller_div #end_display_div p{color:#555459;margin:0 auto 1rem}
+#msgs_scroller_div #end_display_div #end_display_welcome p.secondary{color:#9e9ea6;font-size:1.1rem}
+ul.end_display_actions{margin:0 0 1rem}
+ul.end_display_actions li{display:inline-block;margin:0 1rem 1rem 0;list-style:none;font-size:.9rem}
+#msgs_scroller_div #end_display_div #end_display_welcome #big_icons{font-size:5rem;color:#4c9689;margin:0 auto 1.5rem;text-align:center}
+#msgs_scroller_div #end_display_div #end_display_welcome #big_icons i{display:inline-block}
+#msgs_scroller_div #end_display_div #end_display_welcome #big_icons .fa-plus{font-size:3rem;color:#b2d5c9;margin-top:-11px;vertical-align:middle}
+#welcome_slides_nav{margin:1rem auto 2rem;text-align:center}
+#welcome_slides_dots{margin:1rem auto;text-align:center;cursor:pointer}
+#welcome_slides_dots a{font-size:1rem;color:#9e9ea6;-webkit-transitionDISABLED:color .1s ease-out;-moz-transitionDISABLED:color .1s ease-out;-o-transitionDISABLED:color .1s ease-out;transitionDISABLED:color .1s ease-out;padding:.5rem .2rem}
+#welcome_slides_dots a.active,#welcome_slides_dots a:hover{color:#555459;text-decoration:none}
+#welcome_slide_app_icons .platform_icon{display:block;margin:-0.35rem auto 0}
+#welcome_slide_app_icons img{margin-bottom:.25rem}
+#welcome_slide_app_icons .column{width:24%;display:inline-block;vertical-align:top;text-align:center}
+#welcome_slide_app_icons a{color:#555459;font-weight:bold;font-size:1rem;display:block;margin-right:.5rem;border:1px solid #EEE;padding:1rem 0 .75rem;border-radius:.25rem}
+#welcome_slide_app_icons a:hover{background:#fbfaf8;color:#555459;border-color:#439fe0;text-decoration:none}
+@media only screen and (max-height:650px){#msgs_scroller_div #end_display_div #end_display_welcome .welcome_slide{max-width:450px;margin:0 auto}
+#msgs_scroller_div #end_display_div #end_display_welcome h1{font-size:36px;color:#4d394b;line-height:36px}
+#welcome_slide_slack_logo{width:300px;margin:1rem 0 .5rem -1rem}
+#msgs_scroller_div #end_display_div #end_display_welcome p{font-size:1.2rem;line-height:1.5rem}
+#msgs_scroller_div #end_display_div #end_display_welcome p.secondary{font-size:.9rem}
+}
+@media only screen and (max-height:550px){#msgs_scroller_div #end_display_div #end_display_welcome .welcome_slide{max-width:400px;margin:0 auto}
+#msgs_scroller_div #end_display_div #end_display_welcome h1{font-size:32px;color:#4d394b;line-height:32px}
+#welcome_slide_slack_logo{width:196px;margin:1rem 0 0 0}
+#msgs_scroller_div #end_display_div #end_display_welcome p{font-size:1rem;line-height:1.25rem}
+#welcome_slide_app_icons img{max-width:100px}
+#welcome_slide_app_icons .right_margin{margin-right:.5rem !important}
+#msgs_scroller_div #end_display_div #end_display_welcome p.secondary{font-size:.8rem}
+}
+.is_limited_div{padding:5px 15px;-webkit-border-radius:.25rem;-moz-border-radius:.25rem;border-radius:.25rem;margin:0 -15px;transition:background .25s ease 0}
+#footer.disabled #message-input{border:2px solid #f7f7f7;background:#f7f7f7;-webkit-border-top-right-radius:.2rem;-webkit-border-bottom-right-radius:.2rem;-webkit-border-bottom-left-radius:.2rem;-webkit-border-top-left-radius:.2rem;-moz-border-radius-topright:.2rem;-moz-border-radius-bottomright:.2rem;-moz-border-radius-bottomleft:.2rem;-moz-border-radius-topleft:.2rem;border-top-right-radius:.2rem;border-bottom-right-radius:.2rem;border-bottom-left-radius:.2rem;border-top-left-radius:.2rem;-moz-background-clip:padding-box;-webkit-background-clip:padding-box;background-clip:padding-box}
+#message-input-message{text-align:center;color:#a4a4a4;display:none;position:absolute;height:100%;width:100%}
+#message-input-message span{display:table-cell;vertical-align:middle;padding:0 30px;font-size:1rem}
+#footer.disabled #message-input-message{display:table}
+#messages-input-container{font-size:.9rem;position:absolute;bottom:22px;left:64px;right:4px}
+#footer.disabled #messages-input-container{left:20px}
+#message-form{position:relative;margin:0}
+#message-input{background:white;width:100%;font-size:.95rem;line-height:1.2rem;border:2px solid #e0e0e0;border-left:0;-webkit-border-top-right-radius:.2rem;-webkit-border-bottom-right-radius:.2rem;-webkit-border-bottom-left-radius:0;-webkit-border-top-left-radius:0;-moz-border-radius-topright:.2rem;-moz-border-radius-bottomright:.2rem;-moz-border-radius-bottomleft:0;-moz-border-radius-topleft:0;border-top-right-radius:.2rem;border-bottom-right-radius:.2rem;border-bottom-left-radius:0;border-top-left-radius:0;-moz-background-clip:padding-box;-webkit-background-clip:padding-box;background-clip:padding-box;font-family:'Lato',sans-serif;margin:0;color:#3d3c40;-webkit-appearance:none;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;outline:0;position:absolute;bottom:0;height:40px;min-height:18px !important;padding:9px 5px 9px 8px;max-height:10rem;resize:none !important}
+#message-input.with-emoji-menu{padding:9px 30px 9px 8px}
+#message-input:focus{-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none}
+#message-input.offline{background-color:#fdf1c1 !important}
+#message-input.disabled{background-color:#f5f5f5}
+.timestamp{font-style:normal !important}
+.msgs_holder .topic,.msgs_holder .purpose,.msgs_holder .rename{font-style:normal}
+.msgs_holder .message.automated_grey{background:#f7f7f7;padding:.2rem .5rem .2rem 4.6rem}
+.msgs_holder .message.automated_grey .timestamp{color:#CCC}
+.msgs_holder .message.automated_grey:hover .timestamp{color:#999}
+.msgs_holder .unread_divider{margin:0;z-index:1;color:#ec734e;font-size:.5rem;line-height:.5rem;position:relative;clear:both}
+.msgs_holder .unread_divider.no_unreads{color:#e4c0b6}
+.msgs_holder .unread_divider.no_unreads hr{border-top:1px solid #e4c0b6}
+.msgs_holder .unread_divider hr{border-top:1px solid #ec734e;border-bottom:0;margin:0 0 -1px}
+@-moz-document url-prefix(){.msgs_holder .unread_divider hr{margin:0 0 -2px 0}
+}
+#member_mentions_more{visibility:hidden;text-align:center;padding:30px 0}
+#member_mentions_more_btn{background-color:white !important}
+#member_mentions hr.spacer{margin:3px 0;visibility:hidden}
+#member_mentions h3{font-size:1.1rem;line-height:1.1rem}
+.msgs_holder .unread_divider span.divider_label{background:white;margin:-0.3rem 0;float:right;padding:0 0 0 .5rem}
+.day_divider{background:white;margin:1.5rem 0;line-height:1.2rem;font-size:1rem;font-family:'Lato',sans-serif;color:#555459;font-weight:900;text-align:center;cursor:default;clear:both;position:relative}
+.day_divider hr{position:absolute;border-top:1px solid #DDD;width:100%;top:.6rem;margin:0}
+.day_divider_label{background:white;padding:0 1rem;display:inline-block;margin:0 auto;position:relative}
+#msgs_overlay_div{background:white;height:100%;left:0;margin-left:220px;padding:.2rem .4rem 0;position:absolute;right:3px;top:0;z-index:51}
+#client-ui.flex_pane_showing #msgs_overlay_div{margin-right:392px}
+@media screen and (min-width:1367px){#client-ui.flex_pane_showing #msgs_overlay_div{margin-right:442px}
+}
+@media screen and (min-width:1441px){#client-ui.flex_pane_showing #msgs_overlay_div{margin-right:492px}
+}
+#growl_prompt_overlay{background:none repeat scroll 0 0 #fafafa;border:1px solid #DDD;-webkit-border-radius:.25rem;-moz-border-radius:.25rem;border-radius:.25rem;line-height:1.25rem;margin:6rem auto;padding:1rem;text-shadow:0 1px white;width:80%;font-size:.9rem;max-width:500px;color:#555}
+#messages_unread_status{background:#439fe0;cursor:pointer}
+#messages_unread_status #new_msg_info{margin:0 6.5rem 0 2.5rem}
+#messages_unread_status .tooltip{font-weight:500;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
+#messages_unread_status.quiet{background:#e2f5f8;color:#9e9ea6;text-shadow:0 1px rgba(255,255,255,0.1)}
+#messages_unread_status.quiet a{color:#9e9ea6}
+.new_msgs_jump_link,.clear_unread_messages{position:absolute;top:0;left:0;font-weight:700;font-size:.7rem;display:block;height:25px;line-height:25px;padding:0 .5rem;text-transform:uppercase}
+.new_msgs_jump_link a{display:block}
+.clear_unread_messages{right:0;left:auto}
+.clear_unread_messages .fa-times{font-size:.9rem;margin-left:.25rem}
+#messages_unread_status:hover .new_msgs_jump_link,#messages_unread_status:hover .clear_unread_messages{text-decoration:none}
+.message.file_comment .comment,.message.post_comment .comment{margin:0;min-height:0}
+.message.post_comment .comment{margin-top:.2rem;padding:0}
+.msgs_holder .message.post_message .message_sender{padding-right:0}
+.channel_meta{font-size:.8rem;line-height:1.25rem;color:#666;margin:0 0 .5rem}
+.calendar{float:left;text-align:center;margin:0 1rem 0 0;height:16rem}
+.calendar table.mini td,.calendar table.mini th{padding:.25rem .5rem}
+.calendar table.mini td a{display:block;padding:.25rem .5rem;text-decoration:none}
+.calendar table.mini td.active a,.calendar table.mini td.active a:hover{background:#2a80b9;color:white}
+.calendar table.mini td a:hover{background:#f1f7fa}
+.calendar table.mini td.limited{background-color:#DDD}
+.calendar table.mini td.limited a,.calendar table.mini td.limited a:hover{background-color:#DDD;color:#9e9ea6}
+.bot_message .message_sender,.bot_message .message_sender a{color:#3d3c40}
+.ephemeral.message .message_content{color:#9e9ea6}
+.ephemeral.message .ephemeral_notice{font-size:.7rem;color:#babbbf;line-height:1.2rem}
+.msg_inline_img_expander,.msg_inline_img_collapser,.msg_inline_video_expander,.msg_inline_video_collapser,.msg_inline_audio_expander,.msg_inline_audio_collapser,.msg_inline_attachment_expander,.msg_inline_attachment_collapser{cursor:pointer;font-size:1rem;padding:.25rem;color:#2a80b9}
+.msg_inline_img_expander:hover,.msg_inline_img_collapser:hover,.msg_inline_video_expander:hover,.msg_inline_video_collapser:hover,.msg_inline_audio_expander:hover,.msg_inline_audio_collapser:hover,.msg_inline_attachment_expander:hover,.msg_inline_attachment_collapser:hover{color:#439fe0}
+.msg_inline_attachment_thumb,.msg_inline_img,.msg_inline_video{-ms-box-sizing:content-box;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box;display:block}
+.msg_inline_img{background-image:url(https://slack.global.ssl.fastly.net/20655/img/img_transparent_bg.png);background-repeat:repeat}
+.msg_inline_attachment_thumb{-webkit-border-radius:.25rem;-moz-border-radius:.25rem;border-radius:.25rem}
+.msg_inline_attachment_thumb_holder{margin:0 0 0 1rem;border:0;-webkit-border-radius:.7rem;-moz-border-radius:.7rem;border-radius:.7rem;float:right}
+.msg_inline_attachment_thumb_holder.at_top{margin-top:4px}
+.msg_inline_video_thumb_div{position:relative}
+.msg_inline_video_holder,.msg_inline_video_holder iframe{margin:.25rem 0;background-color:black}
+.msg_inline_video_buttons_div{position:absolute;background-color:rgba(0,0,0,0.4);padding:2rem 3rem;-webkit-border-radius:.7rem;-moz-border-radius:.7rem;border-radius:.7rem;font-size:3rem}
+.msg_inline_video_buttons_div a,.msg_inline_video_buttons_div a:visited{cursor:pointer;text-decoration:none;color:white;-moz-opacity:.7;-khtml-opacity:.7;-webkit-opacity:.7;opacity:.7;-ms-filter:alpha(opacity=70);filter:alpha(opacity=70);text-shadow:0 1px 1px rgba(0,0,0,0.5)}
+.msg_inline_video_buttons_div a:hover{-moz-opacity:1;-khtml-opacity:1;-webkit-opacity:1;opacity:1;-ms-filter:alpha(opacity=100);filter:alpha(opacity=100)}
+.too_large_for_auto_expand{color:#8b898f}
+.inline_attachment{-webkit-border-radius:.25rem;-moz-border-radius:.25rem;border-radius:.25rem;margin-left:0;position:relative}
+.attachment_fallback{border:1px dashed #e3e3e3}
+body:not(.no_attachment_max_width) .inline_attachment{max-width:520px}
+body.no_attachment_max_width .inline_attachment.right_thumb_max_w{max-width:733px}
+body.attachments_flush_with_avatar .inline_attachment{margin-left:-16px}
+.inline_attachment .inline_attachment_wrapper{padding:.2rem .75rem .75rem 0;margin-top:.25rem}
+.inline_attachment .inline_attachment_wrapper.standalone{margin-top:0}
+.inline_attachment .attachment_bar,.special_formatting_quote .quote_bar{display:table-cell;width:4px;border-radius:8px}
+.special_formatting_quote .quote_bar{background:#e3e4e6}
+.inline_attachment .attachment_bar .shim,.quote_bar .shim{width:4px}
+.inline_attachment .content,.special_formatting_quote .content{display:table-cell;padding:0 0 0 12px;width:100%}
+.inline_attachment .content{max-width:520px}
+.modal .inline_attachment .content{max-width:478px}
+#col_flex div.dynamic_content_max_width{max-width:342px}
+.inline_attachment .attachment_service_icon,.inline_attachment .attachment_author_icon{float:left;margin-top:2px;width:16px;height:16px;margin-right:.4rem}
+.inline_attachment .attachment_author_icon{-webkit-border-radius:.2rem;-moz-border-radius:.2rem;border-radius:.2rem}
+.inline_attachment span.attachment_author_name{font-weight:900;color:#555459;margin-right:.25rem}
+.inline_attachment span.attachment_author_subname,.inline_attachment span.attachment_service_name{color:#9e9ea6}
+.inline_attachment a span:hover,.inline_attachment a span:active{color:#439fe0 !important;text-decoration:underline}
+.inline_attachment .attachment_ts,.inline_attachment .attachment_footer{color:#9e9ea6;font-size:12px;line-height:14px;padding-top:.25rem}
+.inline_attachment .attachment_ts a,.inline_attachment .attachment_footer a{color:#9e9ea6}
+.inline_attachment .attachment_footer a:hover,.inline_attachment .attachment_footer a:active,.inline_attachment .attachment_ts a:hover,.inline_attachment .attachment_ts a:active{color:#439fe0 !important;text-decoration:underline}
+.inline_attachment .attachment_title{font-weight:bold;font-size:16px}
+.inline_attachment .attachment_fields{overflow:hidden}
+.inline_attachment .attachment_fields table{margin-top:0rem;float:none;width:100%}
+.inline_attachment .attachment_fields table tr td{padding-bottom:.3rem;max-width:0;width:inherit}
+.inline_attachment .attachment_fields table tr:last-child td{padding-bottom:0rem}
+.inline_attachment .attachment_field_title{font-weight:bold}
+.inline_attachment td .attachment_field_title{font-weight:bold;margin-right:1rem}
+.inline_attachment td .attachment_field_value{margin-right:1rem;margin-top:-0.2rem}
+.inline_attachment .attachment_actions{margin-top:.5rem}
+.msg_inline_audio_holder{margin-top:.25rem}
+.inline_audio_play_link:hover{text-decoration:none}
+.delete_attachment_link{display:none;position:absolute;top:3px;left:-18px;color:#ddd;cursor:pointer}
+.message:hover .delete_attachment_link{display:block}
+.delete_attachment_link:hover{color:#555459}
+.inline_attachment .rest_text_expander{margin-right:10px}
+.sssh-code{cursor:text;line-height:1;font-family:monospace}
+.sssh-line{position:relative}
+.sssh-code pre{-moz-border-radius:0;-webkit-border-radius:0;-o-border-radius:0;border-radius:0;border-width:0;background:transparent;font-family:inherit;font-size:inherit;margin:0;white-space:pre-wrap;line-height:inherit;color:inherit;z-index:2;position:relative;overflow:visible;word-break:normal}
+.sssh-keyword{color:#708}
+.sssh-atom{color:#219}
+.sssh-number{color:#164}
+.sssh-def{color:#00f}
+.sssh-variable{color:black}
+.sssh-variable-2{color:#05a}
+.sssh-variable-3{color:#085}
+.sssh-property{color:black}
+.sssh-operator{color:black}
+.sssh-comment{color:#a50}
+.sssh-string{color:#a11}
+.sssh-string-2{color:#f50}
+.sssh-meta{color:#555}
+.sssh-error{color:red}
+.sssh-qualifier{color:#555}
+.sssh-builtin{color:#30a}
+.sssh-bracket{color:#997}
+.sssh-tag{color:#170}
+.sssh-attribute{color:#00c}
+.sssh-header{color:blue}
+.sssh-quote{color:#090}
+.sssh-hr{color:#999}
+.sssh-link{color:#00c}

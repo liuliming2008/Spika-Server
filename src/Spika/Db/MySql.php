@@ -27,6 +27,50 @@ class MySQL implements DbInterface
     public function __construct(LoggerInterface $logger,Connection $DB){
         $this->logger     = $logger;
         $this->DB         = $DB;
+        $this->logger->addDebug("db construct");
+    }
+    
+    public function setTimeout($timeout){
+    	$this->DB->executeQuery("set session wait_timeout=$timeout",array());
+    }
+    
+    public function reConnect(){
+    	try{
+	    	$this->DB->close();
+	    	$this->DB->connect();
+	    	$this->logger->addDebug("in reConnect: reConnected");
+    	}catch (PDOException $e)
+    	{
+    		$this->DB->connect();
+    		$this->logger->addDebug("in reConnect  PDOException:db connect .error:".($e.getMessage()));
+    	}
+    }
+    
+    public function assureConnected(){
+    	//$this->DB->exec();
+	    //$db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+		
+    	try{
+	    	//$db_info = $this->DB->getAttribute(PDO::ATTR_SERVER_INFO); //  erkennung von toten persistenten verbindungen ...
+    		$database = $this->DB->getDatabase();
+    		
+    		//$db_info = $this->DB->exec('select * from user where _id=1');
+    		$user = $this->DB->fetchAssoc('select * from user where _id = 1',array());
+    		$db_info = $this->DB->errorInfo();
+    		$db_info = $db_info[0];
+    		$this->logger->addDebug($database."db info".$db_info.'empty user:'.empty($user).'count user:'.(count($user)) );
+			if(empty($user) || count($user)==0 || $db_info === "MySQL server has gone away")
+			{
+				$this->reConnect();
+				$this->logger->addDebug('db reConnected'.$db_info);
+			  //$db = null;
+			  //$db = new PDO('mysql:host='.$db_host.';dbname='.$db_db, $db_user,$db_pw);
+			}
+		}catch (PDOException $e) 
+		{
+		   $this->reConnect();
+		   $this->logger->addDebug("in PDOException:db reConnected .error:".($e.getMessage()));
+		}
     }
     
     public function unregistToken($userId){
@@ -65,14 +109,19 @@ class MySQL implements DbInterface
 
         
         if (empty($user['_id'])) {
-            $arr = array('message' => 'User not found!', 'error' => 'logout');
-            return json_encode($arr);
-        }
-        
-        if (empty($user['_id'])) {
             $arr = array('message' => 'Wrong password!', 'error' => 'logout');
             return json_encode($arr);
         }
+        else
+        {
+            $user = $this->DB->fetchAssoc('select * from user where email = ? ',array($email));
+            if (empty($user['_id'])) {
+                $arr = array('message' => 'User not found!', 'error' => 'logout');
+                return json_encode($arr);
+            }
+
+        }
+        
         
 
 
@@ -189,6 +238,36 @@ class MySQL implements DbInterface
         
     }
 
+    public function updateRecords($table, $conditions, $values){
+    	
+    	$sql =  'update '.$table.' set ';
+    	$params = array();
+    	$start = true;
+    	foreach($values as $key => $value){
+    		if( $start )
+    			$sql .= $key.' = ?';
+    		else
+    			$sql .= ', '.$key.' = ?';
+    		$start = false;
+    		$params[]=$value;
+    	}
+    	$start = true;
+    	$sql .= ' WHERE ';
+    	foreach($conditions as $key => $value){
+    		if( $start )
+    			$sql .= $key.' = ?';
+    		else
+    			$sql .= ' and '.$key.' = ?';
+    		$start = false;
+    		$params[]=$value;
+    	}
+
+    	
+    	$result = $this->DB->executeupdate($sql,$params);
+    	
+    	return $result;
+    }
+    
     /**
      * Finds a users by User ID array
      *
@@ -229,6 +308,13 @@ class MySQL implements DbInterface
         $user = $this->DB->fetchAssoc('select * from user where email = ?',array($email));
         $user = $this->reformatUserData($user);
         return $user;
+    }
+    
+    public function findUserByAttr($key,$value,$deletePersonalInfo=true)
+    {
+      $user = $this->DB->fetchAssoc('select * from user where '.$key.' = ?',array($value));
+      $user = $this->reformatUserData($user,$deletePersonalInfo);
+      return $user;
     }
     
     /**
@@ -478,6 +564,7 @@ class MySQL implements DbInterface
         $valueArray['birthday'] = 0;
         $valueArray['created'] = $now;
         $valueArray['modified'] = $now;
+        $valueArray['reg_status'] = 'checked';
         
         if($this->DB->insert('user',$valueArray)){
             return $this->DB->lastInsertId("_id");
@@ -493,7 +580,7 @@ class MySQL implements DbInterface
      * @param  string $json
      * @return id
      */
-    public function createUserDetail($userName,$password,$email,$about,$onlineStatus,$maxContacts,$maxFavorites,$birthday,$gender,$avatarFile,$thumbFile)
+    public function createUserDetail($userName,$password,$email,$about,$onlineStatus,$maxContacts,$maxFavorites,$birthday,$gender,$avatarFile,$thumbFile,$go_id,$reg_status,$invite_user_id,$create_id,$desired_team_title='',$signup_team_id=null)
     {
         
         $now = time();
@@ -512,7 +599,12 @@ class MySQL implements DbInterface
         $valueArray['avatar_thumb_file_id'] = $thumbFile;
         $valueArray['created'] = $now;
         $valueArray['modified'] = $now;
-        
+        $valueArray['go_id'] = $go_id;    
+        $valueArray['reg_status'] = $reg_status;   
+        $valueArray['invite_user_id'] = $invite_user_id; 
+        $valueArray['create_id'] = $create_id; 
+        $valueArray['desired_team_title'] = $desired_team_title; 
+        $valueArray['signup_team_id'] = $signup_team_id;
         if($this->DB->insert('user',$valueArray)){
             return $this->DB->lastInsertId("_id");
         }else{
@@ -572,6 +664,22 @@ class MySQL implements DbInterface
         
         if(!isset($user['token']))
             $user['token'] = $originalData['token'];
+            
+        if(!isset($user['go_id']))
+            $user['go_id'] = $originalData['go_id'];
+            
+        if(!isset($user['reg_status']))
+            $user['reg_status'] = $originalData['reg_status'];
+            
+        if(!isset($user['desired_team_title']))
+            $user['desired_team_title'] = $originalData['desired_team_title'];
+        
+        if(!isset($user['invite_user_id']))
+            $user['invite_user_id'] = $originalData['invite_user_id'];
+        if(!isset($user['create_id']))
+            $user['create_id'] = $originalData['create_id'];
+        if(!isset($user['signup_team_id']))
+        	$user['signup_team_id'] = $originalData['signup_team_id'];
         
         if($secure){
         
@@ -589,7 +697,13 @@ class MySQL implements DbInterface
                     max_contact_count = ?,
                     max_favorite_count = ?,
                     token = ?,
-                    modified = ?
+                    modified = ?,
+                    go_id = ?,
+                    reg_status = ?,
+                    invite_user_id = ?,
+                    create_id = ?,
+                    desired_team_title = ?,
+            		signup_team_id = ? 
                     WHERE _id = ?', 
                 array(
                     $user['name'],
@@ -605,6 +719,12 @@ class MySQL implements DbInterface
                     $user['max_favorite_count'],
                     $user['token'],
                     $now,
+                    $user['go_id'],
+                    $user['reg_status'],
+                    $user['invite_user_id'],
+                    $user['create_id'],
+                    $user['desired_team_title'],
+                	$user['signup_team_id'],
                     $userId));
         }else{
             
@@ -624,7 +744,13 @@ class MySQL implements DbInterface
                     max_contact_count = ?,
                     max_favorite_count = ?,
                     token = ?,
-                    modified = ?
+                    modified = ?,
+                    go_id = ?,
+                    reg_status = ?,
+                    invite_user_id = ?,
+                    create_id = ?,
+                    desired_team_title = ?,
+            		signup_team_id = ?  
                     WHERE _id = ?', 
                 array(
                     $user['name'],
@@ -642,6 +768,12 @@ class MySQL implements DbInterface
                     $user['max_favorite_count'],
                     $user['token'],
                     $now,
+                    $user['go_id'],
+                    $user['reg_status'],
+                    $user['invite_user_id'],
+                    $user['create_id'],
+                    $user['desired_team_title'],
+                	$user['signup_team_id'],
                     $userId));
                     
         }
@@ -709,7 +841,7 @@ class MySQL implements DbInterface
         
     }
 
-    public function addNewGroupMessage($addNewMessage = 'text',$fromUserId,$toGroupId,$message,$additionalParams=array()){
+    public function addNewGroupMessage($addNewMessage = 'text',$fromUserId,$toGroupId,$message,$additionalParams=array(),$teamid=-1){
         
         $messageData = array();
         
@@ -721,7 +853,12 @@ class MySQL implements DbInterface
         $messageData['message_target_type']='group';
         $messageData['message_type']=$addNewMessage;
         $messageData['valid']=true;
-
+        $messageData['ts']=microtime(true);
+//         if($additionalParams['type'])
+//         	$messageData['type']=$additionalParams['type'];
+//         if($additionalParams['subtype'])
+//         	$messageData['subtype']=$additionalParams['subtype'];
+        
         if(is_array($additionalParams)){
             foreach($additionalParams as $key => $value){
                 $messageData[$key]=$value;
@@ -741,8 +878,8 @@ class MySQL implements DbInterface
         }else{
             return null;
         }
-                
-        if($this->DB->insert('message',$messageData)){
+        $tabale_name = $this->getTableNameOfMessage($teamid);
+        if($this->DB->insert($tabale_name,$messageData)){
         
             $couchDBCompatibleResponse = array(
                 'ok' => true,
@@ -790,6 +927,10 @@ class MySQL implements DbInterface
                 message.delete_after_shown,
                 message.read_at,
                 message.comment_count,
+        		message.ts,
+        		message.type,
+        		message.subtype,
+        		
                 user.avatar_thumb_file_id as avatar_thumb_file_id
             from message
                 left join user on user._id = message.from_user_id
@@ -827,6 +968,9 @@ class MySQL implements DbInterface
                 message.delete_after_shown,
                 message.read_at,
                 message.comment_count,
+        		message.ts,
+        		message.type,
+        		message.subtype,
                 user.avatar_thumb_file_id as avatar_thumb_file_id
             from message 
                 left join user on user._id = message.from_user_id
@@ -856,9 +1000,15 @@ class MySQL implements DbInterface
         return $this->formatResult($formatedMessages,$offset);
         
     }
-
-    public function getGroupMessages($targetGroupId,$count,$offset){
-        
+	private function getTableNameOfMessage($teamid=-1){
+		if( $teamid == -1 )
+			return "message";
+		else
+			return "message_".$teamid;
+	}
+    public function getGroupMessages($targetGroupId,$count,$offset,$teamid=-1){
+    	
+        $table=$this->getTableNameOfMessage($teamid);
         $result = $this->DB->fetchAll("
             select 
                 message._id,
@@ -887,8 +1037,11 @@ class MySQL implements DbInterface
                 message.delete_after_shown,
                 message.read_at,
                 message.comment_count,
+				message.ts,
+        		message.type,
+        		message.subtype,
                 user.avatar_thumb_file_id as avatar_thumb_file_id
-            from message 
+            from ".$table." message 
                 left join user on user._id = message.from_user_id
                 where 
                     message_target_type = ? 
@@ -979,9 +1132,13 @@ class MySQL implements DbInterface
         return array('rows'=>array(array('key'=>"",'value'=>$count['count'])));
     }
 
-    public function findMessageById($messageId){
-        $message = $this->DB->fetchAssoc('select * from message where _id = ?',array($messageId));
-        $message = $this->reformatMessageData($message);
+    public function findMessageById($messageId,$teamid=0){
+    	if($teamid==0)
+        	$message = $this->DB->fetchAssoc('select * from message where _id = ?',array($messageId));
+        else
+        	$message = $this->DB->fetchAssoc('select * from message_'.$teamid.' where _id = ?',array($messageId));
+        	 
+    	$message = $this->reformatMessageData($message);
 
         return $this->formatRow($message);
     }
@@ -1051,7 +1208,7 @@ class MySQL implements DbInterface
         
     }
 
-    public function createGroup($name,$ownerId,$categoryId,$description,$password,$avatarURL,$thumbURL){
+    public function createGroup($name,$ownerId,$categoryId,$description,$password,$avatarURL,$thumbURL,$type='private',$isgeneral=0){
 
         
         $groupData = array(
@@ -1062,22 +1219,25 @@ class MySQL implements DbInterface
             'user_id' => $ownerId,
             'avatar_file_id' => $avatarURL,
             'avatar_thumb_file_id' => $thumbURL,
+        	'type' => $type,
+        	'is_general' => $isgeneral,
             'created' => time(),
             'modified' => time()
         );
     
         if($this->DB->insert('`group`',$groupData)){
-            return array(
+            return $this->DB->lastInsertId("_id");
+            /*array(
                 'ok' => 1,
                 'id' => $this->DB->lastInsertId("_id")
-            );
+            );*/
         }else{
             return null;
         }
 
     }
 
-    public function updateGroup($groupId,$name,$ownerId,$categoryId,$description,$password,$avatarURL,$thumbURL){
+    public function updateGroup($groupId,$name,$ownerId,$categoryId,$description,$password,$avatarURL,$thumbURL,$type=''){
 
         $now = time();
 
@@ -1090,6 +1250,7 @@ class MySQL implements DbInterface
                     category_id = ?,
                     avatar_file_id = ?,
                     avatar_thumb_file_id = ?,
+        			type = ?,
                     modified = ?
                     WHERE _id = ?', 
                 array(
@@ -1100,6 +1261,7 @@ class MySQL implements DbInterface
                     $categoryId,
                     $avatarURL,
                     $thumbURL,
+                	$type,
                     time(),
                     $groupId));
 
@@ -1140,7 +1302,17 @@ class MySQL implements DbInterface
         
         return $this->formatRow($group);
     }
-
+    public function findGroupsByUserid($userid)
+    {
+    	$groups = $this->DB->fetchAll('select * from `user_group` where user_id = ?',array($userid));
+    	$groupsAry = array();
+    	foreach($groups as $group){
+        	$groupsAry[$group['group_id']]=$group;
+        }
+    	return $groupsAry;
+    }
+    
+    
     public function findGroupsById($ids)
     {
 
@@ -1172,6 +1344,17 @@ class MySQL implements DbInterface
             $group = $this->reformatGroupData($group);
             
         return $this->formatRow($group);
+    }
+    
+    public function findGroupByNameAndTeamId($name,$cat_id)
+    {
+    	$name = strtolower($name);
+    	$group = $this->DB->fetchAssoc('select * from `group` where LOWER(name) = ? and category_id = ?',array($name,$cat_id));
+    
+    	if(isset($group['_id']))
+    		$group = $this->reformatGroupData($group);
+    
+    	return $this->formatRow($group);
     }
     
     public function findGroupByCategoryId($categoryId)
@@ -1214,7 +1397,7 @@ class MySQL implements DbInterface
     
     public function findGroupsByName($name)
     {
-        $result = $this->DB->fetchAll('select * from `group` where LOWER(name) like LOWER(?)',array("%{$name}%"));
+        $result = $this->DB->fetchAll('select * from `group` where LOWER(name) = LOWER(?)',array("%{$name}%"));
         
         $formatedGroups = array();
         foreach($result as $group){
@@ -1238,7 +1421,7 @@ class MySQL implements DbInterface
         $valueArray['user_id'] = $userId;
         $valueArray['group_id'] = $groupId;
         $valueArray['created'] = time();
-        
+        $valueArray['last_read'] = microtime(true);
         if($this->DB->insert('user_group',$valueArray)){
             return true;
         }else{
@@ -1259,7 +1442,57 @@ class MySQL implements DbInterface
         return true;
         
     }
+   
+    public function findCatsByUserid($userId){
+      $ret = $this->DB->fetchAll('select group_category.* from user_group_category left join group_category on group_category._id = user_group_category.group_category_id where user_id = ?',array($userId)); 
+      return $this->formatResult($ret);
+    }
     
+    public function findUsersByCatid($groupcatId,$deletePersonalInfo=true){
+    	if( $deletePersonalInfo )
+    		$ret = $this->DB->fetchAll('select user._id,user.name,user.about,user.online_status,user.last_login,user.birthday,user.gender,user.avatar_file_id,user.avatar_thumb_file_id from user_group_category left join user on user._id = user_group_category.user_id where group_category_id = ?',array($groupcatId));
+    		
+    	else
+      		$ret = $this->DB->fetchAll('select user.* from user_group_category left join user on user._id = user_group_category.user_id where group_category_id = ?',array($groupcatId)); 
+      return $this->formatResult($ret);
+    }
+    public function  findJoinsByUseridandCatid($userId,$groupcatId)
+    {
+      $ret = $this->DB->fetchAll('select * from user_group_category  where group_category_id = ? and user_id = ?',array($groupcatId,$userId)); 
+      return $this->formatResult($ret);
+    }
+    public function  findJoinsByUseridandGroupid($userId,$groupId)
+    {
+    	$ret = $this->DB->fetchAll('select * from user_group  where group_id = ? and user_id = ?',array($groupId,$userId));
+    	return $this->formatResult($ret);
+    }
+    public function subscribeGroupcat($groupcatId,$userId){
+        
+        $valueArray = array();
+        $valueArray['user_id'] = $userId;
+        $valueArray['group_category_id'] = $groupcatId;
+        $valueArray['created'] = time();
+        
+        if($this->DB->insert('user_group_category',$valueArray)){
+            return true;
+        }else{
+            return false;
+        }
+                
+        return true;
+
+    }
+    
+    public function unSubscribeGroupcat($groupcatId,$userId){
+
+        $contact = $this->DB->fetchAssoc('select _id from user_group where user_id = ? and group_id = ?',
+                                        array($userId,$groupcatId));
+        
+        $this->DB->delete('user_group_category', array('_id' => $contact['_id']));
+
+        return true;
+        
+    }
     
     public function watchGroup($groupId,$userId){
         
@@ -1488,7 +1721,8 @@ class MySQL implements DbInterface
      * @return array
      */
     public function formatRow($row){
-        $row['_rev'] = "";
+    	if(!empty($row))
+        	$row['_rev'] = "";
         return $row;
     }
 
@@ -1522,6 +1756,8 @@ class MySQL implements DbInterface
  
     public function reformatUserData($user,$deletePersonalInfo = true){
 
+        if( $user ==  null || $user == '')
+          return null;
         if($deletePersonalInfo){
             unset($user['password']);
             unset($user['email']);
@@ -1556,7 +1792,7 @@ class MySQL implements DbInterface
 
         $message['created'] = intval($message['created']);
         $message['modified'] = intval($message['modified']);
-        $message['type'] = 'message';
+        //$message['type'] = 'message';
 
         return $message;
     }
@@ -1569,17 +1805,17 @@ class MySQL implements DbInterface
         return $comment;
     }
     
-    public function reformatGroupData($gourp){
+    public function reformatGroupData($group){
 
-        if(isset($gourp['created']))
-            $gourp['created'] = intval($gourp['created']);
+        if(isset($group['created']))
+            $group['created'] = intval($group['created']);
         
         if(isset($gourp['modified']))
-            $gourp['modified'] = intval($gourp['modified']);
+            $group['modified'] = intval($group['modified']);
         
-        $gourp['type'] = 'group';
+        //$gourp['type'] = 'group';
 
-        return $gourp;
+        return $group;
     }
     
    public function findAllUsersWithPaging($offset = 0,$count=0)
@@ -1622,7 +1858,7 @@ class MySQL implements DbInterface
         );
     }
     
-    public function createGroupCategory($title,$picture){
+    public function createGroupCategory($title,$picture,$creator,$maildomain='',$teamdomain='',$use_domain=1,$invites='',$skip_invites=0,$invites_sent=false){
         
                 
         $now = time();
@@ -1632,6 +1868,13 @@ class MySQL implements DbInterface
         $valueArray['avatar_file_id'] = $picture;
         $valueArray['created'] = $now;
         $valueArray['modified'] = $now;
+        $valueArray['creator'] = $creator;
+        $valueArray['maildomain'] = $maildomain;
+        $valueArray['teamdomain'] = $teamdomain;
+        $valueArray['use_domain'] = $use_domain;
+        $valueArray['invites'] = $invites;
+        $valueArray['skip_invites'] = $skip_invites;
+        $valueArray['invites_sent'] = $invites_sent;
         
         if($this->DB->insert('group_category',$valueArray)){
             return $this->DB->lastInsertId("_id");
@@ -1668,6 +1911,32 @@ class MySQL implements DbInterface
         $groupCategory = $this->DB->fetchAssoc('select * from group_category where _id = ?',array($id));                
         return $groupCategory;
         
+    }
+    
+    //liming
+    public function findGroupCategoryByMailAndName($maildomain,$title){
+        
+        $groupCategories = $this->DB->fetchAll('select * from group_category where find_in_set(?, maildomain) or LOWER(title)= LOWER(?)',array($maildomain,$title));                
+        return $this->formatResult($groupCategories);
+        
+    }
+    public function findGroupCatsByMaildomain($maildomain){
+        
+        $groupCategories = $this->DB->fetchAll('select * from group_category where find_in_set(?, maildomain)',array($maildomain));                
+        return $this->formatResult($groupCategories);
+        
+    }
+    
+    //liming
+    public function findGroupCatsByAttr($key,$value,$stricted=false){
+        if($stricted )
+          $groupCategories = $this->DB->fetchAll('select * from group_category where '.$key.'= ?)',array($value));  
+        else
+          $groupCategories = $this->DB->fetchAll('select * from group_category where LOWER('.$key.') = LOWER(?)',array($value)); 
+         //$groupCategories=$this->DB->fetchAssoc('select * from group_category where '.$key.' = ? ',array($value));
+        //$app['logger']->addDebug('--'.print_r($groupCategories).'--');               
+        return $this->formatResult($groupCategories);  
+        //return $groupCategories;   
     }
     
     public function updateGroupCategory($id,$title,$picture){
@@ -2040,15 +2309,22 @@ class MySQL implements DbInterface
     	return $result['avatar_thumb_file_id'];
     }
     
-    public function getAllUsersByGroupId($groupId,$offset = 0,$count = 30){
-        $query = "
+    public function getAllUsersByGroupId($groupId,$offset = 0,$count = 30,$deletePersonalInfo=true){
+       
+        if($deletePersonalInfo)
+        	$query = "
+        	select user._id,user.name,user.about,user.online_status,user.last_login,user.birthday,user.gender,user.avatar_file_id,user.avatar_thumb_file_id 
+        	from user where _id in
+        	(select user_id from user_group where group_id = ?)
+        	limit {$count} offset {$offset}";
+        else 
+        	$query = "
             select * from user where _id in 
                 (select user_id from user_group where group_id = ?) 
                 limit {$count} offset {$offset}";
-
         $users = $this->DB->fetchAll($query,array($groupId));
         
-        
+        $users=$this->formatResult($users);
                       
         return $users;
     }
@@ -2283,5 +2559,46 @@ class MySQL implements DbInterface
     
     	return $result;
     
+    }
+    public function createTeamMessageTable($teamid){
+    	
+    	$query = "CREATE TABLE IF NOT EXISTS `message_".$teamid."` (
+  `_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `from_user_id` bigint(20) NOT NULL,
+  `to_user_id` bigint(20) DEFAULT NULL,
+  `to_group_id` bigint(20) DEFAULT NULL,
+  `to_group_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `body` text COLLATE utf8_bin NOT NULL,
+  `message_target_type` varchar(10) COLLATE utf8_bin NOT NULL,
+  `message_type` varchar(10) COLLATE utf8_bin NOT NULL,
+  `emoticon_image_url` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `picture_file_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `picture_thumb_file_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `voice_file_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `video_file_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `longitude` float DEFAULT NULL,
+  `latitude` float DEFAULT NULL,
+  `valid` int(11) NOT NULL,
+  `from_user_name` varchar(255) COLLATE utf8_bin NOT NULL,
+  `to_user_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `created` int(11) NOT NULL,
+  `modified` int(11) DEFAULT NULL,
+  `delete_type` int(11) NOT NULL DEFAULT '0',
+  `delete_at` int(11) NOT NULL DEFAULT '0',
+  `delete_flagged_at` int(11) NOT NULL DEFAULT '0',
+  `delete_after_shown` tinyint(1) NOT NULL DEFAULT '0',
+  `read_at` int(11) NOT NULL DEFAULT '0',
+  `report_count` int(11) NOT NULL DEFAULT '0',
+  `comment_count` int(11) NOT NULL DEFAULT '0',
+  `ts` decimal(20,8) DEFAULT NULL,
+  `type` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT 'message',
+  `subtype` varchar(32) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`_id`),
+  KEY `from_user_id` (`from_user_id`,`to_user_id`,`message_target_type`,`message_type`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin ;";
+   	
+    	$result = $this->DB->exec($query);
+    	
+    	return $result;
     }
 }

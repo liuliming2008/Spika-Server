@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{lang.clientSiteTitle}}</title>
+
+    
+    <link href="{{ROOT_URL}}/assets/css/bootstrap230.css" rel="stylesheet" type="text/css">
+    <link href="{{ROOT_URL}}/assets/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="{{ROOT_URL}}/assets/css/forms.css" rel="stylesheet" type="text/css">
+    <link href="{{ROOT_URL}}/assets/css/buttons.css" rel="stylesheet" type="text/css">
+    <link href="{{ROOT_URL}}/assets/css/utilities.css" rel="stylesheet" type="text/css">
+    <link href="{{ROOT_URL}}/assets/css/create_team_flow.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="column style="min-height: 348px;">
+
+            <div id="slack_logo"></div>
+
+{% block body %}
+{% endblock %}
+
+        </div>
+    </div>
+
+
+
+    <!-- output_js "core" -->
+    <script type="text/javascript" src="{{ROOT_URL}}/assets/teammsg/js/jquery-1.11.1.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ROOT_URL}}/assets/bootstrap-3.2.0/dist/js/bootstrap.js" crossorigin="anonymous"></script>
+
+    <!-- output_js "secondary" -->
+
+    <!-- output_js "regular" -->
+
+
+
+    <script type="text/javascript">
+        var $column = $('.column');
+
+        function resizeColumn(event, force) {
+
+            var window_height = $(window).height();
+
+            if (force || $column.outerHeight() < window_height) {
+                $column.css('min-height', window_height);
+            }
+
+        }
+
+        $(window).bind('resize.set_column_height', resizeColumn);
+        $(document).ready(function() {
+            resizeColumn(null, true);
+
+            $('input[type="text"], input[type="password"]').first().focus();
+
+        });
+    </script>
+
+    <!-- slack-www414 / 2014-08-25 00:42:51 / v24148 -->
+
+</body>
+
+</html>

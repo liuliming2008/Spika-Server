@@ -47,6 +47,8 @@ class InstallerController implements ControllerProviderInterface
         $controllers = $app['controllers_factory'];
         $self = $this;
         
+        
+        
         // first screen
         $controllers->get('/installer', function (Request $request) use ($app,$self) {
             

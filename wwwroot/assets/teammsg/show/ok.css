@@ -1,0 +1,38 @@
+.container-fluid {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+html {
+    font-size: 16px;
+}
+ul, ol {
+    margin: 0 0 12px 25px;
+    padding: 0;
+}
+
+#channels_scroller {
+    overflow: hidden;
+}
+.modal {
+    background-clip: padding-box;
+    background-color: #fff;
+    border: 0 none;
+    border-radius: 0.25rem;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.6);
+    left: 50%;
+    margin-left: -280px;
+    outline: 0 none;
+    position: fixed;
+    top: 10%;
+    width: 560px;
+    z-index: 1050;
+    bottom:auto;
+}
+.hide {
+    display: none;
+}
+
+#message-input {
+  position: relative;
+  bottom: 0px;
+}

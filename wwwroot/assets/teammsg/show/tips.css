@@ -1,0 +1,118 @@
+@-webkit-keyframes progress_bar{from{background-position:0 0}
+to{background-position:-56px 0}
+}
+@-moz-keyframes progress_bar{from{background-position:0 0}
+to{background-position:-56px 0}
+}
+@-o-keyframes progress_bar{from{background-position:0 0}
+to{background-position:-56px 0}
+}
+@keyframes progress_bar{from{background-position:0 0}
+to{background-position:-56px 0}
+}
+.helvetica{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
+.lato{font-family:'Lato',sans-serif;font-weight:400;-webkit-font-smoothing:antialiased}
+.lato_black{font-family:'Lato',sans-serif;font-weight:900}
+.lato_bold{font-family:'Lato',sans-serif;font-weight:700}
+.lato_regular{font-family:'Lato',sans-serif;font-weight:500}
+.monospace{font-family:"Monaco","Menlo","Consolas","Courier New",monospace !important}
+.burnt_violet{color:#4d394b !important}
+.burnt_violet_bg{background-color:#4d394b !important}
+.ocean_teal{color:#4c9689 !important}
+.ocean_teal_bg{background-color:#4c9689 !important}
+.havana_blue{color:#2a80b9 !important}
+.havana_blue_bg{background-color:#2a80b9 !important}
+.pale_blue{color:#f1f7fa !important}
+.pale_blue_bg{background-color:#f1f7fa !important}
+.candy_red{color:#eb4d5c !important}
+.candy_red_bg{background-color:#eb4d5c !important}
+.indifferent_grey{color:#555459 !important}
+.indifferent_grey_bg{background-color:#555459 !important}
+.severe_grey{color:#3d3c40 !important}
+.severe_grey_bg{background-color:#3d3c40 !important}
+.dull_grey{color:#8b898f !important}
+.dull_grey_bg{background-color:#8b898f !important}
+.subtle_silver{color:#9e9ea6 !important}
+.subtle_silver_bg{background-color:#9e9ea6 !important}
+.cloud_silver{color:#babbbf !important}
+.cloud_silver_bg{background-color:#babbbf !important}
+.sky_blue{color:#439fe0 !important}
+.sky_blue_bg{background-color:#439fe0 !important}
+.slate_blue{color:#3d4b5b !important}
+.slate_blue_bg{background-color:#3d4b5b !important}
+.muddy_lilac{color:#937e91 !important}
+.muddy_lilac_bg{background-color:#937e91 !important}
+.moscow_red{color:#d00000 !important}
+.moscow_red_bg{background-color:#d00000 !important}
+.moscow_red_dark{color:#870000 !important}
+.moscow_red_dark_bg{background-color:#870000 !important}
+.mustard_yellow{color:#daa038 !important}
+.mustard_yellow_bg{background-color:#daa038 !important}
+.kelly_green{color:#36a64f !important}
+.kelly_green_dark{color:#257337 !important}
+.kelly_green_bg{background-color:#36a64f !important}
+.seafoam_green{color:#2ab27b !important}
+.seafoam_green_bg{background-color:#2ab27b !important}
+.star_yellow{color:#fc0 !important}
+.star_yellow_bg{background-color:#fc0 !important}
+.highlight_yellow_bg{background-color:#fffce0 !important}
+.dropbox_blue{color:#007ee5 !important}
+.dropbox_blue_bg{background-color:#007ee5 !important}
+.twitter_blue{color:#55acee !important}
+.twitter_blue_bg{background-color:#55acee !important}
+.warm_white{color:#fbfaf8 !important}
+.warm_white_bg{background-color:#fbfaf8 !important}
+.cloud_white{color:#f2f2f5 !important}
+.cloud_white_bg{background-color:#f2f2f5 !important}
+#tip_card_nav{margin:1.25rem auto .5rem;text-align:center;min-height:1rem}
+#tip_card_dots{margin:0;text-align:center;cursor:pointer}
+#tip_card_dots a{font-size:1rem;color:#9e9ea6;-webkit-transitionDISABLED:color .1s ease-out;-moz-transitionDISABLED:color .1s ease-out;-o-transitionDISABLED:color .1s ease-out;transitionDISABLED:color .1s ease-out;padding:.5rem .2rem}
+#tip_card_dots a.active,#tip_card_dots a:hover{color:#555459;text-decoration:none}
+.tip_card_throbber{background:transparent url(https://slack.global.ssl.fastly.net/20646/img/tip_throbber.png) 0 0 no-repeat;width:58px;height:58px;cursor:pointer;position:absolute;z-index:10}
+.tip_card_throbber.throbbing{-webkit-animation:throb .5s steps(12) alternate infinite;-moz-animation:throb .5s steps(12) alternate infinite;animation:throb .5s steps(12) alternate infinite}
+body.blurred .tip_card_throbber.throbbing{-webkit-animation:none;-moz-animation:none;animation:none}
+@-webkit-keyframes throb{from{background-position:0 0}
+to{background-position:-696px 0}
+}
+@-moz-keyframes throb{from{background-position:0 0}
+to{background-position:-696px 0}
+}
+@keyframes throb{from{background-position:0 0}
+to{background-position:-696px 0}
+}
+#tip_card{position:absolute;background:white;padding:.9rem 1rem .6rem;line-height:.3rem;z-index:150;max-width:500px;-webkit-border-radius:.5rem;-moz-border-radius:.5rem;border-radius:.5rem;-webkit-box-shadow:0 1px 10px rgba(0,0,0,0.6);-moz-box-shadow:0 1px 10px rgba(0,0,0,0.6);box-shadow:0 1px 10px rgba(0,0,0,0.6)}
+#tip_card h3{margin-bottom:.5rem}
+#tip_card_interior{color:#555459;padding:1rem;font-family:"Lato";font-size:1rem;line-height:1.25rem}
+#tip_card_footer p{text-align:right;color:#9e9ea6;font-size:.75rem;margin:.75rem 1rem .25rem}
+#tip_card_footer a,#tip_card_footer a:hover{ccolor:#9e9ea6}
+#tip_card_footer #tip_card_logo{position:absolute;bottom:1rem;left:.75rem;width:72px;height:72px;background:white}
+#tip_card_callout{position:absolute;width:24px;height:29px;background:url(https://slack.global.ssl.fastly.net/10220/img/tip_card_callout.png)}
+.tip_card_go{min-width:69px;position:absolute;right:2rem;bottom:3rem}
+.tip_screen{min-height:9rem}
+.tip_screen.short{min-height:1rem}
+#channels_tip_card_throbber{top:21px;left:191px}
+#tip_card.channels_tip_card_div{top:71px;left:230px}
+#tip_card.channels_tip_card_div #tip_card_callout{top:1rem;left:-1.5rem}
+#message_input_tip_card_throbber{position:absolute;top:-27px;left:-30px}
+#tip_card.message_input_tip_card_div{bottom:82px;left:242px}
+#tip_card.message_input_tip_card_div #tip_card_callout{bottom:-26px;left:1.8rem;-webkit-transform:rotate(270deg);-moz-transform:rotate(270deg);-o-transform:rotate(270deg);-ms-transform:rotate(270deg);transform:rotate(270deg)}
+#team_menu_tip_card_throbber{position:absolute;top:-3px;left:167px}
+#tip_card.team_menu_tip_card_div #tip_card_callout{top:1rem;left:-1.5rem}
+#search_input_tip_card_throbber{position:absolute;top:-3px;right:-61px}
+#tip_card.search_input_tip_card_div{top:70px}
+#tip_card.search_input_tip_card_div #tip_card_callout{top:-26px;-webkit-transform:rotate(90deg);-moz-transform:rotate(90deg);-o-transform:rotate(90deg);-ms-transform:rotate(90deg);transform:rotate(90deg)}
+#channel_menu_tip_card_throbber{position:absolute;top:1px;left:313px}
+#tip_card.channel_menu_tip_card_div #tip_card_callout{top:1rem;left:-1.5rem}
+#user_menu_tip_card_throbber{position:absolute;top:-21px;left:24px}
+#tip_card.user_menu_tip_card_div #tip_card_callout{top:1rem;left:-1.5rem}
+#flexpane_tip_card_throbber{position:absolute;z-index:1000;top:-1px;right:25px}
+#flexpane_tip_card_throbber.old{right:-5px}
+.banner_showing #flexpane_tip_card_throbber{top:60px}
+#tip_card.flexpane_tip_card_div{top:120px}
+#tip_card.flexpane_tip_card_div #tip_card_callout{top:6rem;-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);-o-transform:rotate(180deg);-ms-transform:rotate(180deg);transform:rotate(180deg)}
+#tip_card.about_channels_tip_card_div #tip_card_callout,#tip_card.about_dms_tip_card_div #tip_card_callout,#tip_card.about_groups_tip_card_div #tip_card_callout{top:1rem;left:-1.5rem}
+#tip_card_bg{position:absolute;background:#666;background:rgba(0,0,0,0.4);width:100%;height:100%;padding:10% 0;top:0;left:0;z-index:149}
+.help{color:#9e9ea6;font-family:'Lato',sans-serif;padding-top:1rem}
+.help i.callout{font-size:3rem;line-height:3.5rem;float:left;display:block;margin:0 1.5rem 1rem .5rem;color:#4c9689;width:3rem;text-align:center}
+.help .icon_offset{padding-left:5rem}
+.help h4{color:#9e9ea6;font-weight:600}

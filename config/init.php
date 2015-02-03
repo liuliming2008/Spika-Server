@@ -11,22 +11,26 @@
  
  
 /* change here */
-define('ROOT_URL','http://localhost:8080/wwwroot');
-define('LOCAL_ROOT_URL', 'http://localhost/wwwroot');
+define('ROOT_URL','http://testasdf.com');
+define('ROOT_URL_BASE_BASE','testasdf');
+define('ROOT_URL_BASE','testasdf.com');
+define('ROOT_URL_HEAD','http://');
+//define('ROOT_URL_HEAD_HTTPS','https://');
+define('LOCAL_ROOT_URL', 'http://testasdf.com');
 
 define("MySQL_HOST", 'localhost');
-define('MySQL_DBNAME', 'spikadb');
+define('MySQL_DBNAME', 'spika');
 define('MySQL_USERNAME', 'root');
-define('MySQL_PASSWORD', 'yourpassword');
+define('MySQL_PASSWORD', 'lm801024');
 /* end change here */
 
 define('AdministratorEmail', "admin@spikaapp.com");
 
-define('ENABLE_LOGGING',false);
+define('ENABLE_LOGGING',true);
 
 define('SUPPORT_USER_ID', 1);
 define('ADMIN_LISTCOUNT', 10);
-define("DEFAULT_LANGUAGE","en");
+define("DEFAULT_LANGUAGE","zh-cn");
 
 define('HTTP_PORT', 80);
 
@@ -45,3 +49,5 @@ define("GCM_API_KEY","AIzaSyDOkqeO0MZ_igwH_zGyy95DO1ahM8-Ebrw");
 define("SEND_EMAIL_METHOD",1); // 0: dont send 1:local smtp 2:gmail
 define("GMAIL_USER",""); 
 define("GMAIL_PASSWORD",""); 
+
+

@@ -1,0 +1,43 @@
+{% extends "layout.htcreatecomp.twig" %}
+
+<h1>Welcome!</h1> 
+<h2 class="large_bottom_margin">You're about to set up a new team on Slack.</h2>
+
+
+<p>Your invitation was sent to <strong>liuliming2008@126.com</strong>.</p>
+
+<p>Is this the correct email address?</p>
+
+<form action="/create/2576761519-657e3e5c42" method="post" id="email_confirm_form" accept-encoding="UTF-8" class="large_bottom_margin">
+    <input type="hidden" name="done" value="step1" />
+    <input type="hidden" name="crumb" value="s-1408952571-11e15eafda-☃" />
+
+    <p><a onclick="$('#email_confirm_form').submit();" class="btn btn-large"><i class="fa fa-check small_right_margin"></i> Yes, that's the right address</a>
+    </p>
+</form>
+
+<div id="different_address_toggle">
+    <p class="secondary">If that's not right, you can switch to a different email address. We'll need to send you a new invite, but we'll do that right away.</p>
+    <p><a class="btn btn-outline btn-large" onclick="
+$(this).fadeOut(200, function() { 
+setTimeout( function() { 
+$('#different_address').fadeIn(200, function() {
+resizeColumn();
+$('#alternative_email').focus();
+}); 
+}, 150); 
+}); return false;">
+Switch to a different address
+</a>
+    </p>
+</div>
+
+<div id="different_address" style="display: none;">
+    <form action="/create/2576761519-657e3e5c42" method="post" accept-encoding="UTF-8">
+        <input type="hidden" name="email_change" value="1" />
+        <input type="hidden" name="crumb" value="s-1408952571-11e15eafda-☃" />
+
+        <input type="email" id="alternative_email" name="email" value="" class="small_right_margin" placeholder="Email Address" />
+        <input type="submit" class="btn btn-large btn-primary" value="Use this instead" />
+    </form>
+</div>

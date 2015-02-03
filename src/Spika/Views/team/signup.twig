@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+</head>
+
+  <body ondragover="return false" class="padded ">
+
+	
+			
+	
+	<div id="slack_header">
+		<div class="container">
+
+			<div style="float: right; margin-top: -32px">
+						<a href="https://slack.com/signin" class="btn btn-outline">Sign in to another team</a>
+				</div>
+
+			<a href="/"><img src="https://slack.global.ssl.fastly.net/22564/img/slack_logo.png" style="width: 180px; height: 54px;"></a>
+			<hr>
+		</div>
+	</div>
+			
+		
+	
+<div class="container"> 
+{% if post is defined %}
+	<h1>Account Created</h1>
+	<p>Your account creation email has been sent to <strong>{{email}}@{{emaildomain}}</strong>. Check your inbox to get started.</p>
+
+	<p>When your email arrives, <a href="/">click here</a> to sign in.</p>
+
+{% else %}
+	<h1>Welcome to Slack. Let's set up your account.</h1>
+
+	<h2 class="large_bottom_margin">Enter your {{name}} email address to get started.</h2>	
+
+					
+		
+	<form action="/signup" method="post" accept-encoding="UTF-8">
+		<input name="signup1" value="1" type="hidden">
+		<input name="domain" value="corp.netease.com" type="hidden">
+		<input name="crumb" value="s-1410236201-4bf1456b76" type="hidden">
+
+		<p class="control-group large_bottom_margin ">
+			<label class="control-label" for="email">Email Address</label>
+			<input name="email" class="input-medium" value="{{email}}" type="text">
+{% if email_domains|length == 1 %}
+			<strong class="mini">@{{email_domains[0]}}</strong>	
+{% else %}          
+          <select name="email_domain">
+{% for domain in email_domains %}   
+            <option value="{{ domain }}">@{{domain}}</option> 
+{% endfor %}  
+          </select>
+{% endif %}   
+
+			
+			<span class="input_note indented">An account creation link will be sent to you at this address.</span>
+		</p>
+
+		<p><input class="btn btn-primary btn-large indented" value="Create Account" type="submit"></p>
+
+	</form>
+{% endif %}
+</div>
+
+	<div class="clear-both"></div>
+
+<div id="footer">		
+	<span class="float-right">
+						<a href="https://api.slack.com/">API</a>		<a href="/pricing">Pricing</a>				<a href="http://slackatwork.com" target="_blank">Slack at Work</a><br>		<a href="/terms-of-service">Terms of Service</a>
+		<a href="/privacy-policy">Privacy Policy</a>
+		<a href="/security">Security</a>
+		<a href="/help/contact">Contact</a>
+		<a href="http://www.tinyspeck.com"><nobr>Slack Technologies, Inc</nobr></a>
+			</span>
+</div>
+
+
+
+
+
+	<!-- output_js "core" -->
+<script type="text/javascript" src="https://slack.global.ssl.fastly.net/22159/js/libs_jquery-2.1.1_1405531008.https.gz.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://slack.global.ssl.fastly.net/10860/js/libs_flash_detect_1381167216.https.gz.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://slack.global.ssl.fastly.net/22507/js/libs_bootstrap_1406132967.https.gz.js" crossorigin="anonymous"></script>
+
+			<!-- output_js "secondary" -->
+
+		<!-- output_js "regular" -->
+
+	
+
+
+<!-- slack-www500 / 2014-09-08 21:16:41 / v25093 -->
+
+
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>登录</title>
+
+    
+    <link href="{{ROOT_URL}}/assets/css/buttons.css" rel="stylesheet" type="text/css"> 
+    <link href="{{ROOT_URL}}/assets/css/utilities.css" rel="stylesheet" type="text/css">
+		<link href="{{ROOT_URL}}/assets/css/go_page_new.css" rel="stylesheet" type="text/css">
+    
+    
+</head>
+ 
+{% if teamscount >1 %} 
+<body class="padded " ondragover="return false">
+
+	
+			
+	
+	<div id="slack_header">
+		<div class="container">
+
+			<div style="float: right; margin-top: -32px">
+						<a class="btn btn-outline" href="https://slack.com/signin">Sign in</a>
+				</div>
+
+			<a href="/"><img style="width: 180px; height: 54px;" src="https://slack.global.ssl.fastly.net/22564/img/slack_logo.png"></a>
+			<hr>
+		</div>
+	</div>
+			
+		
+	
+<div class="container">
+
+	
+
+	<h1>Choose Team</h1>
+	
+				
+
+	
+
+						<p class="small_bottom_margin">Sign in to another team:</p>
+				<p>
+        {% for team in teams %}  
+            <li>{{ user.username|e }}</li> 
+            <a class="btn btn-outline small_right_margin small_bottom_margin" href="{{ROOT_URL_HEAD}}{{team.teamdomain}}.{{ROOT_URL_BASE}}/{{signinorup}}?e={{email}}">{% if signinorup == 'signin' %}  Sign in{% else %} Sign up {% endif %}  to {{team.title}}</a>
+							 
+        {% endfor %} 
+					</p>
+	
+	
+
+</div>
+
+	<div class="clear-both"></div>
+
+<div id="footer">		
+	<span class="float-right">
+						<a href="https://api.slack.com/">API</a>		<a href="/pricing">Pricing</a>				<a target="_blank" href="http://slackatwork.com">Slack at Work</a><br>		<a href="/terms-of-service">Terms of Service</a>
+		<a href="/privacy-policy">Privacy Policy</a>
+		<a href="/security">Security</a>
+		<a href="/help/contact">Contact</a>
+		<a href="http://www.tinyspeck.com"><nobr>Slack Technologies, Inc</nobr></a>
+			</span>
+</div>
+
+  <script type="text/javascript" src="{{ROOT_URL}}/assets/teammsg/js/jquery-1.11.1.min.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="{{ROOT_URL}}/assets/bootstrap-3.2.0/dist/js/bootstrap.js" crossorigin="anonymous"></script>
+
+
+</body>
+{% else %} 
+<body class="padded " ondragover="return false">
+
+	
+			
+	
+	<div id="slack_header">
+		<div class="container">
+
+
+			<a href="/"><img style="width: 180px; height: 54px;" src="https://slack.global.ssl.fastly.net/22564/img/slack_logo.png"></a>
+			<hr>
+		</div>
+	</div>
+			
+		
+	
+<div class="container">
+
+	<p class="alert alert-notice align-left">Trying to create a team? <a class="bold" href="/">Sign up on the home page</a> to get started.</p>
+
+	<form accept-encoding="UTF-8" method="post" action="/signin">
+		<input type="hidden" value="1" name="signin">
+		<input type="hidden" value="" name="redir">
+
+		<div style="max-width: 300px; margin: 3rem auto 5rem;">
+
+							<h1>Sign in</h1>
+					
+			<p style="text-align: left;">Enter your email address to get started.</p>
+      {% if teamscount == 0 %}
+        <p class="alert alert-error">
+					Your email address did not match any teams.
+					If your team is already using Slack, you'll need to ask your team administrator to send you an invite.
+				</p>
+			{% endif %}			
+
+		    <p class="control-group ">
+				<input type="text" placeholder="Email Address" value="" style="width: 100%;" name="email">
+			</p>
+
+			<p><input type="submit" style="width: 100%;" value="Sign In" class="btn btn-primary"></p>
+		</div>
+	</form>
+
+	
+</div>
+
+
+	<div class="clear-both"></div>
+
+<div id="footer">		
+	<span class="float-right">
+						<a href="https://api.slack.com/">API</a>		<a href="/pricing">Pricing</a>				<a target="_blank" href="http://slackatwork.com">Slack at Work</a><br>		<a href="/terms-of-service">Terms of Service</a>
+		<a href="/privacy-policy">Privacy Policy</a>
+		<a href="/security">Security</a>
+		<a href="/help/contact">Contact</a>
+		<a href="http://www.tinyspeck.com"><nobr>Slack Technologies, Inc</nobr></a>
+			</span>
+</div>
+
+
+
+
+
+  <script type="text/javascript" src="{{ROOT_URL}}/assets/teammsg/js/jquery-1.11.1.min.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="{{ROOT_URL}}/assets/bootstrap-3.2.0/dist/js/bootstrap.js" crossorigin="anonymous"></script>
+  
+
+
+	<script type="text/javascript">
+		
+			$('input[name="email"]').val() ? $('input[name="password"]').focus() : $('input[name="email"]').focus();
+		
+	</script>
+
+
+</body>
+{% endif %} 
+</html>

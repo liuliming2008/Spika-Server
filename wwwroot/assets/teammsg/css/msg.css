@@ -1,0 +1,85 @@
+html {
+    font-size: 100%;
+}
+body {
+    color: #555459;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    line-height: 1rem;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    text-rendering: optimizelegibility;
+}
+#client-ui{
+  
+}
+#client_banner {
+  height:50px;
+}
+#client_header {
+  height:50px;
+}
+#client_body {
+  height:100%;  
+}
+#client_footer {
+
+}
+#col_left {
+  background: none repeat scroll 0 0 #4d394b;
+  color: #ab9ba9;
+  float: left;
+  font-family: "Lato",sans-serif;
+  position: relative;
+  width: 220px;
+}
+#col_right {
+  height:100%;  
+}
+ 
+#top_menu  {
+    background: none repeat scroll 0 0 #3e313c;
+    border-bottom: 2px solid #372c36;
+    color: white;
+    cursor: pointer;
+    float: left;
+    font-family: "Lato",sans-serif;
+    font-size: 1rem;
+    font-weight: 900;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 1rem;
+    position: relative;
+    width: 220px;
+}
+#top_menu #team_name {
+    max-width: 170px;
+}
+#top_menu i {
+    color: #a09a9f;
+    font-size: 1rem;
+    position: absolute;
+    right: 1rem;
+    top: 1.1rem;
+}
+#top_menu:hover i {
+    color: white;
+}
+.right_padding {
+    padding-right: 1rem !important;
+}
+#channels_scroller{
+  width: 220px;
+  background: none repeat scroll 0 0 #4d394b;
+
+  padding: 0;
+}
+
+.channels_list_holder .section_holder {
+    margin: 1rem 0 1rem;
+}
+#starred_div  {
+    
+}
+#channels {
+
+}

@@ -51,7 +51,7 @@ class SpikaWebBaseController implements ControllerProviderInterface
     }
     
     public function checkLogin(){
-        if($this->app['session']->get('user') == null)
+        if($this->app['session']->get('user') == null && $this->app['session']->get('authData') == null)
             return false;
         else
             return true;
